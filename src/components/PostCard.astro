@@ -1,0 +1,104 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  tag?: string;
+  tagColor?: string;
+}
+
+const { title, description, slug, tag, tagColor = "blue" } = Astro.props;
+
+const tagColors = {
+  go: { bg: "#00add8", text: "#fff" },
+  proto: { bg: "#a277ff", text: "#fff" },
+  dev: { bg: "#a277ff", text: "#fff" },
+  js: { bg: "#f7df1e", text: "#000" },
+  blue: { bg: "#3b82f6", text: "#fff" },
+};
+
+const colors = tagColors[tagColor as keyof typeof tagColors] || tagColors.blue;
+---
+
+<a href={`/${slug}`} class="post-card-link">
+  <article class="post-card">
+    {
+      tag && (
+        <span
+          class="tag"
+          style={`background: ${colors.bg}; color: ${colors.text};`}
+        >
+          {tag}
+        </span>
+      )
+    }
+    <h2 class="post-title">{title}</h2>
+    <p class="post-description">{description}</p>
+  </article>
+</a>
+
+<style>
+  .post-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+
+  .post-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-purple);
+    opacity: 0.9;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .post-card-link:hover .post-card {
+    border-color: var(--accent-purple);
+    box-shadow: var(--card-shadow-hover-strong), var(--card-shadow-hover-light);
+    transform: translateY(-5px);
+  }
+
+  .post-card-link:hover .post-card::before {
+    opacity: 1;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+
+  .post-description {
+    font-size: 0.938rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+</style>

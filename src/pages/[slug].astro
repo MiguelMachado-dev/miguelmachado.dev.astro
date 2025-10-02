@@ -1,0 +1,680 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog");
+  // Sort by date descending (newest first)
+  const sortedEntries = blogEntries
+    .filter((entry) => !entry.data.draft)
+    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+  return sortedEntries.map((entry, index) => {
+    const prevPost =
+      index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null;
+    const nextPost = index > 0 ? sortedEntries[index - 1] : null;
+
+    return {
+      params: { slug: entry.id },
+      props: { entry, prevPost, nextPost },
+    };
+  });
+}
+
+const { entry, prevPost, nextPost } = Astro.props;
+const { Content, headings, remarkPluginFrontmatter } = await render(entry);
+
+// Calculate reading time
+function calculateReadingTime(text: string): number {
+  const wordsPerMinute = 200;
+  const words = text.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return minutes;
+}
+
+// Get raw content for reading time calculation
+const rawContent = entry.body || "";
+const readingTime = calculateReadingTime(rawContent);
+
+// SEO data
+const postUrl = new URL(`/${entry.id}`, Astro.site || "https://miguelmachado.dev").href;
+const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURIComponent(entry.data.title)}.png`;
+---
+
+<BaseLayout
+  title={`${entry.data.title} - Miguel Machado`}
+  description={entry.data.description}
+  ogType="article"
+  ogImage={ogImageUrl}
+  articleDate={entry.data.pubDate}
+  articleTags={entry.data.tags}
+  canonical={postUrl}
+>
+  <div class="app-container">
+    <Sidebar />
+
+    <main class="main-content">
+      <div class="content-wrapper">
+        <article class="post-article">
+          <a href="/" class="back-link">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7"></path>
+            </svg>
+            Voltar ao início
+          </a>
+
+          <header class="post-header">
+            <div class="post-meta-top">
+              <time datetime={entry.data.pubDate.toISOString()}>
+                {
+                  entry.data.pubDate.toLocaleDateString("pt-BR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
+                }
+              </time>
+              <span>•</span>
+              <span>{readingTime} min de leitura</span>
+            </div>
+
+            <h1 class="post-title">{entry.data.title}</h1>
+
+            <p class="post-description">{entry.data.description}</p>
+
+            {
+              entry.data.tags && entry.data.tags.length > 0 && (
+                <div class="post-tags">
+                  {entry.data.mainClass && (
+                    <span class={`tag-badge tag-${entry.data.mainClass}`}>
+                      {entry.data.mainClass.toUpperCase()}
+                    </span>
+                  )}
+                  {entry.data.tags.map((tag) => (
+                    <span class="tag">#{tag}</span>
+                  ))}
+                </div>
+              )
+            }
+          </header>
+
+          {
+            entry.data.image && (
+              <div class="post-image">
+                <img src={entry.data.image.url} alt={entry.data.image.alt} />
+              </div>
+            )
+          }
+
+          <div class="post-content prose">
+            <Content />
+          </div>
+
+          <!-- Previous/Next Post Navigation -->
+          {
+            (prevPost || nextPost) && (
+              <nav class="post-navigation">
+                {prevPost && (
+                  <a href={`/${prevPost.id}`} class="nav-post prev-post">
+                    <span class="nav-label">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                      </svg>
+                      Post Anterior
+                    </span>
+                    <span class="nav-title">{prevPost.data.title}</span>
+                  </a>
+                )}
+
+                {nextPost && (
+                  <a href={`/${nextPost.id}`} class="nav-post next-post">
+                    <span class="nav-label">
+                      Próximo Post
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                    <span class="nav-title">{nextPost.data.title}</span>
+                  </a>
+                )}
+              </nav>
+            )
+          }
+        </article>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="/" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+          </svg>
+        </a>
+        <a href="#search" class="nav-item">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </a>
+        <a href="#" class="nav-item">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+        </a>
+        <a href="#top" class="nav-item active">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+          </svg>
+        </a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .post-article {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 3rem;
+    box-shadow: var(--card-shadow);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.938rem;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+
+  .back-link:hover {
+    color: var(--accent-purple-hover);
+  }
+
+  .back-link svg {
+    transition: transform 0.2s;
+  }
+
+  .back-link:hover svg {
+    transform: translateX(-3px);
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .post-meta-top {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 0.938rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-meta-top time {
+    color: var(--accent-cyan);
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .post-description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .tag-badge {
+    padding: 0.35rem 0.875rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-badge.tag-go {
+    background: #00add8;
+    color: #fff;
+  }
+
+  .tag-badge.tag-proto {
+    background: #a277ff;
+    color: #fff;
+  }
+
+  .tag-badge.tag-dev {
+    background: #a277ff;
+    color: #fff;
+  }
+
+  .tag {
+    color: var(--text-secondary);
+    padding: 0.35rem 0.5rem;
+    font-size: 0.813rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  .post-image {
+    margin: 2rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .post-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .post-content {
+    color: var(--text-primary);
+  }
+
+  /* Post Navigation */
+  .post-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .nav-post {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    min-height: 100px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-post::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-purple);
+    opacity: 0.9;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .nav-post:hover {
+    border-color: var(--accent-purple);
+    box-shadow: var(--card-shadow-hover-strong), var(--card-shadow-hover-light);
+    transform: translateY(-5px);
+  }
+
+  .nav-post:hover::before {
+    opacity: 1;
+  }
+
+  .prev-post {
+    text-align: left;
+  }
+
+  .next-post {
+    text-align: right;
+    grid-column: 2;
+  }
+
+  .nav-post:only-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+  }
+
+  .nav-post:only-child.next-post {
+    margin-left: auto;
+  }
+
+  .nav-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+  }
+
+  .next-post .nav-label {
+    justify-content: flex-end;
+  }
+
+  .nav-post:hover .nav-label {
+    color: var(--accent-purple-hover);
+  }
+
+  .nav-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .nav-post svg {
+    transition: transform 0.3s ease;
+  }
+
+  .prev-post:hover svg {
+    transform: translateX(-3px);
+  }
+
+  .next-post:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Prose styles for markdown content */
+  .prose :global(h1),
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4),
+  .prose :global(h5),
+  .prose :global(h6) {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .prose :global(h1) {
+    font-size: 2rem;
+  }
+
+  .prose :global(h2) {
+    font-size: 1.75rem;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.5rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  .prose :global(a) {
+    color: var(--accent-purple);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--accent-purple-hover);
+    border-bottom-color: var(--accent-purple-hover);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: 1.25rem;
+    padding-left: 1.75rem;
+    color: var(--text-secondary);
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose :global(strong) {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .prose :global(code) {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-cyan);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: "Geist Mono", "Courier New", Courier, monospace;
+  }
+
+  .prose :global(pre) {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    line-height: 1.6;
+    font-family: "Geist Mono", "Courier New", Courier, monospace;
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+  }
+
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--accent-purple);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .prose :global(img) {
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  .prose :global(th) {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+
+  .nav-item:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .nav-item.active {
+    background-color: var(--bg-card);
+    color: var(--accent-purple);
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+      padding: 1.5rem 1rem;
+      padding-bottom: 6rem;
+    }
+
+    .post-article {
+      padding: 2rem 1.5rem;
+    }
+
+    .back-link {
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .post-title {
+      font-size: 2rem;
+    }
+
+    .post-description {
+      font-size: 1rem;
+    }
+
+    .post-meta-top {
+      font-size: 0.875rem;
+    }
+
+    .post-navigation {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+    }
+
+    .next-post {
+      grid-column: 1;
+    }
+
+    .nav-post:only-child {
+      max-width: 100%;
+    }
+
+    .nav-post {
+      padding: 1.25rem;
+    }
+
+    .nav-title {
+      font-size: 1rem;
+    }
+
+    .bottom-nav {
+      right: 50%;
+      transform: translateX(50%);
+      bottom: 1rem;
+    }
+  }
+</style>

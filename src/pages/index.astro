@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get all blog posts sorted by date
+const allPosts = (await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+}))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Map tags to colors
+const tagColorMap: Record<string, string> = {
+  'astro': 'blue',
+  'golang': 'go',
+  'go': 'go',
+  'typescript': 'js',
+  'javascript': 'js',
+  'protobuf': 'proto',
+  'protocol buffers': 'proto',
+};
+
+// SEO data for home page
+const homeUrl = new URL("/", Astro.site || "https://miguelmachado.dev").href;
+const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURIComponent("Miguel Machado - Software Engineer")}.png`;
+---
+
+<BaseLayout 
+  title="Miguel Machado - Software Engineer"
+  description="Blog sobre desenvolvimento web, backend e games. Trabalhando com TypeScript, React, Next.js, Golang, e mais."
+  ogImage={homeOgImage}
+  canonical={homeUrl}
+>
+  <div class="app-container">
+    <Sidebar />
+    
+    <main class="main-content">
+      <div class="content-wrapper">
+        <div class="posts-grid">
+          {allPosts.map((post) => {
+            const firstTag = post.data.tags?.[0]?.toLowerCase() || '';
+            const tagColor = tagColorMap[firstTag] || 'blue';
+            
+            return (
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                slug={post.id}
+                tag={post.data.tags?.[0]?.toUpperCase()}
+                tagColor={tagColor}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="/" class="nav-item active">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+        </a>
+        <a href="#search" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </a>
+        <a href="#" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+        </a>
+        <a href="#top" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+          </svg>
+        </a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .posts-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+
+  .nav-item:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .nav-item.active {
+    background-color: var(--bg-card);
+    color: var(--accent-purple);
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+      padding: 1.5rem 1rem;
+      padding-bottom: 6rem;
+    }
+
+    .bottom-nav {
+      right: 50%;
+      transform: translateX(50%);
+      bottom: 1rem;
+    }
+  }
+</style>
