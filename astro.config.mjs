@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 import pagefind from "astro-pagefind";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,5 +21,5 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkReadingTime],
   },
-  integrations: [pagefind()],
+  integrations: [pagefind(), sitemap()],
 });

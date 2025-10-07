@@ -1,0 +1,6 @@
+# robotstxt.org/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://miguelmachado.dev/sitemap-index.xml
