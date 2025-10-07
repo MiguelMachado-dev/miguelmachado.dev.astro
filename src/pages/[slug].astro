@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
+import BottomNav from "../components/BottomNav.astro";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 
@@ -177,68 +178,10 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
         </article>
       </div>
 
-      <div class="bottom-nav">
-        <a href="/" class="nav-item" title="Go to home">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
-          </svg>
-        </a>
-        <a href="#search" class="nav-item" title="Search for a post">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-        </a>
-        <button
-          class="nav-item active scroll-to-top"
-          title="Scroll to top"
-          type="button"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <line x1="12" y1="19" x2="12" y2="5"></line>
-            <polyline points="5 12 12 5 19 12"></polyline>
-          </svg>
-        </button>
-      </div>
+      <BottomNav activePage="post" />
     </main>
   </div>
 </BaseLayout>
-
-<script>
-  function setupScrollToTop() {
-    const scrollToTopBtn = document.querySelector(".scroll-to-top");
-
-    if (scrollToTopBtn) {
-      scrollToTopBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
-    }
-  }
-
-  // Run immediately
-  setupScrollToTop();
-
-  // Also run on page load for safety
-  document.addEventListener("DOMContentLoaded", setupScrollToTop);
-</script>
 
 <style>
   .app-container {
@@ -612,64 +555,11 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
     font-weight: 600;
   }
 
-  .bottom-nav {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    display: flex;
-    gap: 0.5rem;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 0.75rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    color: var(--text-secondary);
-    transition: all 0.2s;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .nav-item:hover {
-    background-color: var(--bg-card);
-    color: var(--text-primary);
-  }
-
-  .nav-item.active {
-    background-color: var(--bg-card);
-    color: var(--accent-purple);
-  }
-
-  .scroll-to-top:hover svg {
-    animation: bounce-up 0.6s ease-in-out;
-  }
-
-  @keyframes bounce-up {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    25% {
-      transform: translateY(-8px);
-    }
-    50% {
-      transform: translateY(-4px);
-    }
-    75% {
-      transform: translateY(-6px);
-    }
-  }
-
   @media (max-width: 768px) {
+    .app-container {
+      flex-direction: column;
+    }
+
     .main-content {
       margin-left: 0;
       padding: 1.5rem 1rem;
@@ -718,12 +608,6 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
 
     .nav-title {
       font-size: 1rem;
-    }
-
-    .bottom-nav {
-      right: 50%;
-      transform: translateX(50%);
-      bottom: 1rem;
     }
   }
 </style>
