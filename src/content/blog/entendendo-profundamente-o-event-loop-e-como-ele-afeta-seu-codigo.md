@@ -6,16 +6,12 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image:
-  url: /assets/img/entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo.png
-  alt: Entendendo profundamente o event loop e como ele afeta seu código
+image: ../../assets/img/entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo.png
 tags: ['javascript', 'conceitos', 'Event Loop', 'node.js', 'programação assíncrona', 'js runtime', 'call stack']
 draft: false
 ---
 
 # Introdução ao Event Loop
-
-![Entendendo profundamente o event loop e como ele afeta seu código](/assets/img/entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo.png)
 
 O event loop é uma das características mais poderosas e ao mesmo tempo complexas do JavaScript e do Node.js. Ele possibilita a execução de código assíncrono, ou seja, tarefas que não bloqueiam a execução do programa enquanto aguardam por alguma resposta. Esse comportamento é fundamental para aplicações com alto grau de concorrência e interatividade.
 

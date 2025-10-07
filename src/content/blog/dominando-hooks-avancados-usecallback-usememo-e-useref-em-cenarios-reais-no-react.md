@@ -6,16 +6,12 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image:
-  url: /assets/img/dominando-hooks-avan-ados-usecallback-usememo-e-useref-em-cen-rios-reais-no-react.png
-  alt: "Dominando Hooks Avançados: useCallback, useMemo e useRef em Cenários Reais no React"
+image: ../../assets/img/dominando-hooks-avan-ados-usecallback-usememo-e-useref-em-cen-rios-reais-no-react.png
 tags: ['react', 'hooks', 'usecallback', 'usememo', 'useref', 'otimização de performance']
 draft: false
 ---
 
 # Introdução: Além dos Hooks Básicos
-
-![Dominando Hooks Avançados](/assets/img/dominando-hooks-avan-ados-usecallback-usememo-e-useref-em-cen-rios-reais-no-react.png)
 
 Se você já trabalha com React há algum tempo, `useState` e `useEffect` provavelmente são seus companheiros diários. Eles formam a base da lógica de estado e ciclo de vida em componentes funcionais. No entanto, à medida que as aplicações crescem em complexidade, surgem desafios de performance, principalmente relacionados a re-renderizações desnecessárias.
 

@@ -6,10 +6,8 @@ author: Miguel Machado
 layout: post
 mainClass: misc
 color: "#7AAB13"
-image:
-  url: /assets/img/alexa-echo-dot.jpg
-  alt: How I automated my PC using Alexa and programming
-tags: []
+image: ../../assets/img/alexa-echo-dot.jpg
+tags: ["alexa"]
 draft: false
 ---
 
@@ -18,8 +16,6 @@ draft: false
 A week ago I bought an Echo Dot from Amazon, and since then I've fallen in love with automation.
 
 Today I'll show you how I used scripts to do the automation of some things here.
-
-![Image of an Echo Dot](/assets/img/alexa-echo-dot.jpg)
 
 ### TriggerCMD
 

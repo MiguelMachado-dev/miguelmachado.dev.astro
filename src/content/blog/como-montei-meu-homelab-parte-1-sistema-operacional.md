@@ -6,9 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: dev
 color: "#637a91"
-image:
-  url: /assets/img/leonardo_diffusion_homelab_0.jpg
-  alt: "Como montei meu homelab - Parte 1: Sistema Operacional"
+image: ../../assets/img/leonardo_diffusion_homelab_0.jpg
 tags: ['homelab', 'proxmox']
 draft: false
 ---

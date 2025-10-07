@@ -10,11 +10,14 @@ interface Props {
 const { title, description, slug, tag, tagColor = "blue" } = Astro.props;
 
 const tagColors = {
-  go: { bg: "#00add8", text: "#fff" },
+  go: { bg: "#00add8", text: "#121010" },
   proto: { bg: "#a277ff", text: "#fff" },
   dev: { bg: "#a277ff", text: "#fff" },
   js: { bg: "#f7df1e", text: "#000" },
   blue: { bg: "#3b82f6", text: "#fff" },
+  acessibilidade: { bg: "#10b981", text: "#fff" },
+  eslint: { bg: "#4b32c3", text: "#fff" },
+  alexa: { bg: "#7AAB13", text: "#fff" },
 };
 
 const colors = tagColors[tagColor as keyof typeof tagColors] || tagColors.blue;

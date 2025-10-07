@@ -1,6 +1,6 @@
 ---
 title: Entendendo Closures em JavaScript
-description: >-
+description: Os closures são um dos conceitos mais poderosos e avançados da linguagem JavaScript. Eles permitem que uma função tenha acesso a variáveis externas à sua própria escopo, mesmo depois de terem sido executadas.
 pubDate: 2025-04-07T00:00:00.000Z
 author: Miguel Machado
 layout: post

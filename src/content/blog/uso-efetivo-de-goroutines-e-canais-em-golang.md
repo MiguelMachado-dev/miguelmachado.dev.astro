@@ -1,6 +1,11 @@
 ---
 title: Uso Efetivo de Goroutines e Canais em Golang
 description: Descubra como as goroutines e canais em Golang revolucionam a
+  concorrência em desenvolvimento de software. Aprenda a criar código eficiente
+  e escalável, explorando exemplos práticos que destacam os benefícios da
+  programação concorrente em Go. Uma jornada emocionante pelo poder das
+  goroutines e canais que transformará a maneira como você aborda a execução
+  simultânea de tarefas em seus projetos.
 pubDate: 2024-01-28T00:00:00.000Z
 author: Miguel Machado
 layout: post
