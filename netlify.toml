@@ -1,0 +1,34 @@
+[[redirects]]
+from = "/todos-os-meus-links"
+to = "https://meus-links.miguelmachado.dev/"
+status = 301
+
+[[redirects]]
+from = "/meus-links"
+to = "https://meus-links.miguelmachado.dev/"
+status = 301
+
+[[redirects]]
+from = "/discord"
+to = "https://discord.gg/fZJfrVgQDS"
+status = 301
+
+[[redirects]]
+from = "/twitch"
+to = "https://twitch.tv/Migtito"
+status = 301
+
+[[redirects]]
+from = "/youtube"
+to = "https://www.youtube.com/@oMigtito?sub_confirmation=1"
+status = 301
+
+[[redirects]]
+from = "/instagram"
+to = "https://www.instagram.com/omigtito"
+status = 301
+
+[[redirects]]
+from = "/portfolio"
+to = "https://porfolio.miguelmachado.dev"
+status = 301
