@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import faviconImg from "../assets/img/mmcoding-icon.png";
 
 interface Props {
   title: string;
@@ -36,7 +37,7 @@ const canonicalUrl = canonical || currentUrl.href;
     <link
       rel="icon"
       type="image/png"
-      href="/src/assets/img/mmcoding-icon.png"
+      href={faviconImg.src}
     />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
