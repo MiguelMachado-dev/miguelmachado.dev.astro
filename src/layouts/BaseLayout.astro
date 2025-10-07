@@ -38,6 +38,23 @@ const canonicalUrl = canonical || currentUrl.href;
     <link rel="canonical" href={canonicalUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
@@ -74,10 +91,6 @@ const canonicalUrl = canonical || currentUrl.href;
     {description && <meta name="twitter:description" content={description} />}
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
     <ClientRouter />
   </head>
   <body>
@@ -97,7 +110,7 @@ const canonicalUrl = canonical || currentUrl.href;
     --bg-secondary: #110f18;
     --bg-card: rgba(25, 25, 40, 0.5);
     --text-primary: #edecee;
-    --text-secondary: #8899a6;
+    --text-secondary: #a3b3bf;
     --texts-light: #6c7a86;
     --accent-purple: #a277ff;
     --accent-purple-hover: #b990ff;

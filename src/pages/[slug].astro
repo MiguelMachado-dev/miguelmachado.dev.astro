@@ -108,12 +108,17 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
                     src={entry.data.image}
                     alt={entry.data.title}
                     loading="eager"
+                    fetchpriority="high"
                     quality={90}
                   />
                 ) : typeof entry.data.image === "object" &&
                   "url" in entry.data.image ? (
                   /* Handle old format (object with url/alt) - NOT optimized */
-                  <img src={entry.data.image.url} alt={entry.data.image.alt} />
+                  <img
+                    src={entry.data.image.url}
+                    alt={entry.data.image.alt}
+                    fetchpriority="high"
+                  />
                 ) : null}
               </div>
             )

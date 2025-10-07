@@ -5,6 +5,10 @@ import { remarkReadingTime } from "./remark-reading-time.mjs";
 // https://astro.build/config
 export default defineConfig({
   site: "https://miguelmachado.dev",
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
   image: {
     domains: ["github.com"],
     // Enable responsive images globally for all markdown images
