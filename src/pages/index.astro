@@ -77,7 +77,7 @@ const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURICompo
             <path d="m21 21-4.35-4.35"></path>
           </svg>
         </a>
-        <a href="#top" class="nav-item" title="Scroll to top">
+        <button class="nav-item scroll-to-top" title="Scroll to top">
           <svg
             width="20"
             height="20"
@@ -89,11 +89,33 @@ const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURICompo
             <line x1="12" y1="19" x2="12" y2="5"></line>
             <polyline points="5 12 12 5 19 12"></polyline>
           </svg>
-        </a>
+        </button>
       </div>
     </main>
   </div>
 </BaseLayout>
+
+<script>
+  function setupScrollToTop() {
+    const scrollToTopBtn = document.querySelector(".scroll-to-top");
+
+    if (scrollToTopBtn) {
+      scrollToTopBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+    }
+  }
+
+  // Run immediately
+  setupScrollToTop();
+
+  // Also run on page load for safety
+  document.addEventListener("DOMContentLoaded", setupScrollToTop);
+</script>
 
 <style>
   .app-container {
@@ -140,6 +162,9 @@ const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURICompo
     border-radius: 8px;
     color: var(--text-secondary);
     transition: all 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
   .nav-item:hover {
@@ -150,6 +175,26 @@ const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURICompo
   .nav-item.active {
     background-color: var(--bg-card);
     color: var(--accent-purple);
+  }
+
+  .scroll-to-top:hover svg {
+    animation: bounce-up 0.6s ease-in-out;
+  }
+
+  @keyframes bounce-up {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(-8px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+    75% {
+      transform: translateY(-6px);
+    }
   }
 
   @media (max-width: 768px) {
