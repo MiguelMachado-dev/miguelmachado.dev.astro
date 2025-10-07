@@ -6,9 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image:
-  url: /assets/img/thumb-absolute-path.png
-  alt: Absolute imports with Create React App
+image: ../../assets/img/thumb-absolute-path.png
 tags: []
 draft: false
 ---

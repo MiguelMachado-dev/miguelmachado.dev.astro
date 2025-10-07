@@ -6,16 +6,12 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image:
-  url: /assets/img/sitemap.png
-  alt: Como gerar sitemap no Next.JS
+image: ../../assets/img/sitemap.png
 tags: ['tutorial', 'nextjs', 'sitemap']
 draft: false
 ---
 
 ## Introdução
-
-![Imagem de um sitemap do UX Collective](/assets/img/sitemap.png)
 
 O cenário era o seguinte, estava precisando gerar sitemap no Next.JS, mas tinha alguns links que eram totalmente dinâmicos. Sempre que um post novo no blog fosse criado, deveria atualizar o sitemap.
 

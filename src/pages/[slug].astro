@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -25,20 +26,11 @@ export async function getStaticPaths() {
 const { entry, prevPost, nextPost } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
-// Calculate reading time
-function calculateReadingTime(text: string): number {
-  const wordsPerMinute = 200;
-  const words = text.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return minutes;
-}
-
-// Get raw content for reading time calculation
-const rawContent = entry.body || "";
-const readingTime = calculateReadingTime(rawContent);
-
 // SEO data
-const postUrl = new URL(`/${entry.id}`, Astro.site || "https://miguelmachado.dev").href;
+const postUrl = new URL(
+  `/${entry.id}`,
+  Astro.site || "https://miguelmachado.dev"
+).href;
 const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURIComponent(entry.data.title)}.png`;
 ---
 
@@ -83,7 +75,7 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
                 }
               </time>
               <span>•</span>
-              <span>{readingTime} min de leitura</span>
+              <span>{remarkPluginFrontmatter.minutesRead}</span>
             </div>
 
             <h1 class="post-title">{entry.data.title}</h1>
@@ -109,7 +101,20 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
           {
             entry.data.image && (
               <div class="post-image">
-                <img src={entry.data.image.url} alt={entry.data.image.alt} />
+                {/* Handle new optimized format (direct image path) */}
+                {typeof entry.data.image === "object" &&
+                "src" in entry.data.image ? (
+                  <Image
+                    src={entry.data.image}
+                    alt={entry.data.title}
+                    loading="eager"
+                    quality={90}
+                  />
+                ) : typeof entry.data.image === "object" &&
+                  "url" in entry.data.image ? (
+                  /* Handle old format (object with url/alt) - NOT optimized */
+                  <img src={entry.data.image.url} alt={entry.data.image.alt} />
+                ) : null}
               </div>
             )
           }

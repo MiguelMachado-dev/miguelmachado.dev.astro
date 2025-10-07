@@ -6,16 +6,12 @@ author: Miguel Machado
 layout: post
 mainClass: a11y
 color: "#009e66"
-image:
-  url: /assets/img/acessibilidade-parte-2.jpeg
-  alt: Imagem representando sinais de acessibilidade
+image: ../../assets/img/acessibilidade-parte-2.jpeg
 tags: ['acessibilidade', 'a11y', 'web']
 draft: false
 ---
 
 ## Introdução
-
-![Imagem representando sinais de acessibilidade](/assets/img/acessibilidade-parte-2.jpeg)
 
 Antes de mais nada, se você ainda não leu a parte 1 deste tema, recomendo que leia-o, basta [clicar aqui](/como-melhorar-acessibilidade).
 
@@ -54,7 +50,7 @@ Existem sites que te ajudam a validar se o background e a cor do texto possuem u
 
 O próprio DevTools ajuda com isso, como no exemplo a seguir:
 
-![Imagem onde mostro a visualização do devTools, na forma como ele ajuda com o contraste e acessibilidade exibindo curvas no seletor de cor.](/assets/img/devTools-contraste.png)
+![Imagem onde mostro a visualização do devTools, na forma como ele ajuda com o contraste e acessibilidade exibindo curvas no seletor de cor.](../../assets/img/devTools-contraste.png)
 
 ### Conclusão
 

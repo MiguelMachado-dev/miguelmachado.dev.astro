@@ -6,16 +6,13 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image:
-  url: /assets/img/entendendo-closures-em-javascript.png
-  alt: Entendendo Closures em JavaScript
+image: ../../assets/img/entendendo-closures-em-javascript.png
 tags: ['javascript', 'conceitos']
 draft: false
 ---
 
 # Introdução
 Os closures são um dos conceitos mais poderosos e avançados da linguagem JavaScript. Eles permitem que uma função tenha acesso a variáveis externas à sua própria escopo, mesmo depois de terem sido executadas.
-![Closures](/assets/img/entendendo-closures-em-javascript.png)
 
 ## O que são Closures?
 Em termos simples, um closure é uma função que tem acesso a uma variável externa à sua própria escopo, mesmo após a execução da função externa ter terminado. Isso significa que as variáveis externas à função não são destruídas após a execução da função, mas mantidas em memória enquanto houver alguma referência a elas.

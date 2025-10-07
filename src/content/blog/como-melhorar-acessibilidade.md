@@ -6,16 +6,12 @@ author: Miguel Machado
 layout: post
 mainClass: a11y
 color: "#009e66"
-image:
-  url: /assets/img/acessibilidade-medium.png
-  alt: Imagem representando sinais de acessibilidade
+image: ../../assets/img/acessibilidade-medium.png
 tags: ['acessibilidade', 'a11y', 'web']
 draft: false
 ---
 
 ## Introdução
-
-![Imagem representando sinais de acessibilidade](/assets/img/acessibilidade-medium.png)
 
 Acessibilidade é um tópico muito falado mas muitas vezes vejo isso sendo deixado de lado.
 
@@ -26,7 +22,7 @@ Por ser um tópico bem grande, hoje irei abordar alguns pontos que são fáceis 
 Já notou que nos navegadores baseados no Chromium e no Firefox algumas interações possuem um comportamento padrão do navegador?
 Como por exemplo a seleção de um botão ou input. Como nos exemplos abaixo:
 
-![Imagem onde mostra exemplos de foco de botões no Chrome, Safari e Firefox.](/assets/img/outline-chrome.png)
+![Imagem onde mostra exemplos de foco de botões no Chrome, Safari e Firefox.](../../assets/img/outline-chrome.png)
 
 Muitas vezes eu vejo sites onde removem por completo o outline em CSS Reset. E isso implica diretamente na acessibilidade.
 

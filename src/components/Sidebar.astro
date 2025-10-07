@@ -1,5 +1,5 @@
 ---
-
+import { Image } from "astro:assets";
 ---
 
 <aside class="sidebar" transition:persist>
@@ -7,9 +7,13 @@
     <a href="/" class="profile-link">
       <div class="profile">
         <div class="avatar">
-          <img
+          <Image
             src="https://github.com/MiguelMachado-dev.png"
             alt="Miguel Machado"
+            width={80}
+            height={80}
+            loading="eager"
+            format="webp"
           />
         </div>
         <h1 class="name">Miguel Machado</h1>
@@ -120,9 +124,12 @@
       var(--accent-blue)
     );
     padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .avatar img {
+  .avatar :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
