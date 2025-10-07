@@ -30,5 +30,5 @@ status = 301
 
 [[redirects]]
 from = "/portfolio"
-to = "https://porfolio.miguelmachado.dev"
+to = "https://portfolio.miguelmachado.dev"
 status = 301
