@@ -49,7 +49,7 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
     <main class="main-content">
       <div class="content-wrapper">
         <article class="post-article">
-          <a href="/" class="back-link">
+          <a href="/" class="back-link" data-pagefind-ignore>
             <svg
               width="20"
               height="20"
@@ -64,7 +64,7 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
           </a>
 
           <header class="post-header">
-            <div class="post-meta-top">
+            <div class="post-meta-top" data-pagefind-ignore>
               <time datetime={entry.data.pubDate.toISOString()}>
                 {
                   entry.data.pubDate.toLocaleDateString("pt-BR", {
@@ -78,13 +78,15 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
               <span>{remarkPluginFrontmatter.minutesRead}</span>
             </div>
 
-            <h1 class="post-title">{entry.data.title}</h1>
+            <h1 class="post-title" data-pagefind-meta="title">
+              {entry.data.title}
+            </h1>
 
             <p class="post-description">{entry.data.description}</p>
 
             {
               entry.data.tags && entry.data.tags.length > 0 && (
-                <div class="post-tags">
+                <div class="post-tags" data-pagefind-ignore>
                   {entry.data.mainClass && (
                     <span class={`tag-badge tag-${entry.data.mainClass}`}>
                       {entry.data.mainClass.toUpperCase()}
@@ -100,7 +102,7 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
 
           {
             entry.data.image && (
-              <div class="post-image">
+              <div class="post-image" data-pagefind-ignore>
                 {/* Handle new optimized format (direct image path) */}
                 {typeof entry.data.image === "object" &&
                 "src" in entry.data.image ? (
@@ -124,14 +126,14 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
             )
           }
 
-          <div class="post-content prose">
+          <div class="post-content prose" data-pagefind-body>
             <Content />
           </div>
 
           <!-- Previous/Next Post Navigation -->
           {
             (prevPost || nextPost) && (
-              <nav class="post-navigation">
+              <nav class="post-navigation" data-pagefind-ignore>
                 {prevPost && (
                   <a href={`/${prevPost.id}`} class="nav-post prev-post">
                     <span class="nav-label">

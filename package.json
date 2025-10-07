@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "astro": "^5.14.1",
+    "astro-pagefind": "^1.8.5",
     "mdast-util-to-string": "^4.0.0",
+    "pagefind": "^1.4.0",
     "reading-time": "^1.5.0"
   }
 }

@@ -55,7 +55,11 @@ import { Image } from "astro:assets";
     <nav class="main-nav">
       <ul>
         <li>
-          <a href="/" class={Astro.url.pathname === "/" ? "active" : ""}>
+          <a
+            href="/"
+            data-nav-link="/"
+            class={Astro.url.pathname === "/" ? "active" : ""}
+          >
             <svg
               width="16"
               height="16"
@@ -70,10 +74,52 @@ import { Image } from "astro:assets";
             <span>Home</span>
           </a>
         </li>
+        <li>
+          <a
+            href="/search"
+            data-nav-link="/search"
+            class={Astro.url.pathname === "/search" ? "active" : ""}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <span>Buscar</span>
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
 </aside>
+
+<script>
+  function updateActiveNav() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll("[data-nav-link]");
+
+    navLinks.forEach((link) => {
+      const linkPath = link.getAttribute("data-nav-link");
+      if (linkPath === currentPath) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+  }
+
+  // Update on initial load
+  document.addEventListener("DOMContentLoaded", updateActiveNav);
+
+  // Update on view transitions
+  document.addEventListener("astro:page-load", updateActiveNav);
+</script>
 
 <style>
   .sidebar {
