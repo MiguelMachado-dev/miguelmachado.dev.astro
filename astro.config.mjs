@@ -9,7 +9,7 @@ export default defineConfig({
   site: "https://miguelmachado.dev",
   trailingSlash: "never",
   build: {
-    format: "file"
+    format: "file",
   },
   prefetch: {
     prefetchAll: true,
