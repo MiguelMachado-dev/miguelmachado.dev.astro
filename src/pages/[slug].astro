@@ -36,7 +36,7 @@ const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 const slug = entry.data.slug || entry.id;
 const postUrl = new URL(`/${slug}`, Astro.site || "https://miguelmachado.dev")
   .href;
-const ogImageUrl = `${ogImageServiceUrl}/title/${encodeURIComponent(entry.data.title)}/url/${postUrl}`;
+const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.title)}&url=${postUrl}`;
 ---
 
 <BaseLayout
