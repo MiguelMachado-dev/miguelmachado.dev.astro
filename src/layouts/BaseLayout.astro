@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import faviconImg from "../assets/img/mmcoding-icon.png";
 
 interface Props {
@@ -92,8 +91,6 @@ const canonicalUrl = canonical || currentUrl.href;
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
     {ogImage && <meta name="twitter:image" content={ogImage} />}
-
-    <ClientRouter />
   </head>
   <body>
     <slot />
