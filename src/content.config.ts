@@ -17,6 +17,7 @@ const blog = defineCollection({
       layout: z.string().optional(),
       mainClass: z.string().optional(), // 'main-class' from original blog
       color: z.string().optional(), // hex color for the post category
+      slug: z.string().optional(), // custom slug for the post
       // Support both old and new image formats during migration
       image: z
         .union([

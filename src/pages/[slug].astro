@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar.astro";
 import BottomNav from "../components/BottomNav.astro";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
+import { ogImageServiceUrl } from "../config/constants";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog");
@@ -17,8 +18,11 @@ export async function getStaticPaths() {
       index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null;
     const nextPost = index > 0 ? sortedEntries[index - 1] : null;
 
+    // Use custom slug if provided, otherwise use the file name (entry.id)
+    const slug = entry.data.slug || entry.id;
+
     return {
-      params: { slug: entry.id },
+      params: { slug },
       props: { entry, prevPost, nextPost },
     };
   });
@@ -28,11 +32,11 @@ const { entry, prevPost, nextPost } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
 // SEO data
-const postUrl = new URL(
-  `/${entry.id}`,
-  Astro.site || "https://miguelmachado.dev"
-).href;
-const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURIComponent(entry.data.title)}.png`;
+// Use custom slug if provided, otherwise use the file name (entry.id)
+const slug = entry.data.slug || entry.id;
+const postUrl = new URL(`/${slug}`, Astro.site || "https://miguelmachado.dev")
+  .href;
+const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.title)}&url=${postUrl}`;
 ---
 
 <BaseLayout
@@ -136,7 +140,10 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
             (prevPost || nextPost) && (
               <nav class="post-navigation" data-pagefind-ignore>
                 {prevPost && (
-                  <a href={`/${prevPost.id}`} class="nav-post prev-post">
+                  <a
+                    href={`/${prevPost.data.slug || prevPost.id}`}
+                    class="nav-post prev-post"
+                  >
                     <span class="nav-label">
                       <svg
                         width="20"
@@ -155,7 +162,10 @@ const ogImageUrl = `https://og-image-service.miguelmachado.dev/${encodeURICompon
                 )}
 
                 {nextPost && (
-                  <a href={`/${nextPost.id}`} class="nav-post next-post">
+                  <a
+                    href={`/${nextPost.data.slug || nextPost.id}`}
+                    class="nav-post next-post"
+                  >
                     <span class="nav-label">
                       Próximo Post
                       <svg

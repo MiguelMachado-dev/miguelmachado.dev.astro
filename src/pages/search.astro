@@ -2,10 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
 import BottomNav from "../components/BottomNav.astro";
+import { ogImageServiceUrl } from "../config/constants";
 
 const searchUrl = new URL("/search", Astro.site || "https://miguelmachado.dev")
   .href;
-const searchOgImage = `https://og-image-service.miguelmachado.dev/${encodeURIComponent("Buscar Posts - Miguel Machado")}.png`;
+const searchOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Buscar Posts - Miguel Machado")}&url=${searchUrl}`;
 ---
 
 <BaseLayout

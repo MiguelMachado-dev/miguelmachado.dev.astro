@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar.astro";
 import PostCard from "../components/PostCard.astro";
 import BottomNav from "../components/BottomNav.astro";
 import { getCollection } from "astro:content";
+import { ogImageServiceUrl } from "../config/constants";
 
 // Get all blog posts sorted by date
 const allPosts = (
@@ -28,7 +29,7 @@ const tagColorMap: Record<string, string> = {
 
 // SEO data for home page
 const homeUrl = new URL("/", Astro.site || "https://miguelmachado.dev").href;
-const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURIComponent("Miguel Machado - Software Engineer")}.png`;
+const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Miguel Machado - Senior Software Engineer")}.png`;
 ---
 
 <BaseLayout
@@ -52,7 +53,7 @@ const homeOgImage = `https://og-image-service.miguelmachado.dev/${encodeURICompo
                 <PostCard
                   title={post.data.title}
                   description={post.data.description}
-                  slug={post.id}
+                  slug={post.data.slug || post.id}
                   tag={post.data.tags?.[0]?.toUpperCase()}
                   tagColor={tagColor}
                 />
