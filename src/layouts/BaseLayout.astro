@@ -69,6 +69,31 @@ const canonicalUrl = canonical || currentUrl.href;
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta property="og:site_name" content="Miguel Machado" />
     <meta property="og:locale" content="pt_BR" />
+    {
+      ogType === "article" && articleDate && (
+        <meta property="og:updated_time" content={articleDate.toISOString()} />
+      )
+    }
+
+    <!-- LinkedIn specific -->
+    <meta property="article:author" content="Miguel Machado" />
+    <meta property="article:publisher" content="https://miguelmachado.dev/" />
+    {
+      ogType === "article" && articleDate && (
+        <meta
+          property="article:published_time"
+          content={articleDate.toISOString()}
+        />
+      )
+    }
+    {
+      ogType === "article" && articleDate && (
+        <meta
+          property="article:modified_time"
+          content={articleDate.toISOString()}
+        />
+      )
+    }
 
     <!-- Article specific -->
     {
@@ -91,6 +116,62 @@ const canonicalUrl = canonical || currentUrl.href;
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
     {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- Additional SEO -->
+    <meta name="author" content="Miguel Machado" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Portuguese" />
+    {
+      ogType === "article" && articleDate && (
+        <meta name="publish_date" content={articleDate.toISOString()} />
+      )
+    }
+    {
+      ogType === "article" && articleDate && (
+        <meta name="date" content={articleDate.toDateString()} />
+      )
+    }
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Miguel Machado",
+        "jobTitle": "Senior Software Engineer",
+        "description": "Engenheiro de Software Sênior com 7+ anos de experiência em Golang, Node.js, React e TypeScript. Blog sobre desenvolvimento web moderno e boas práticas.",
+        "url": "https://miguelmachado.dev",
+        "sameAs": [
+          "https://www.linkedin.com/in/miguel-machado-dev/",
+          "https://github.com/MiguelMachado-dev",
+          "https://portfolio.miguelmachado.dev"
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Tech Industry"
+        },
+        "knowsAbout": [
+          "Golang",
+          "Node.js",
+          "React",
+          "TypeScript",
+          "Desenvolvimento Web",
+          "Arquitetura de Software",
+          "Performance",
+          "Backend Development",
+          "Frontend Development"
+        ],
+        "mainEntityOfPage": {
+          "@type": "WebSite",
+          "@id": "https://miguelmachado.dev"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Miguel Machado",
+          "url": "https://miguelmachado.dev"
+        }
+      }
+    </script>
   </head>
   <body>
     <slot />
