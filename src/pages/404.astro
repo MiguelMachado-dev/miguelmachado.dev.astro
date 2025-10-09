@@ -1,0 +1,296 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import BottomNav from "../components/BottomNav.astro";
+import { ogImageServiceUrl } from "../config/constants";
+
+// SEO data for 404 page
+const notFoundUrl = new URL("/404", Astro.site || "https://miguelmachado.dev")
+  .href;
+const notFoundOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Página não encontrada - Miguel Machado")}`;
+---
+
+<BaseLayout
+  title="404 - Página não encontrada | Miguel Machado"
+  description="A página que você está procurando não foi encontrada. Volte ao blog do Miguel Machado para ver os posts sobre desenvolvimento web, Golang, TypeScript e muito mais."
+  ogImage={notFoundOgImage}
+  canonical={notFoundUrl}
+>
+  <div class="app-container" data-pagefind-ignore="all">
+    <Sidebar />
+
+    <main class="main-content">
+      <div class="content-wrapper">
+        <div class="error-container">
+          <div class="error-content">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">Página não encontrada</h2>
+            <p class="error-description">
+              Ops! A página que você está procurando não existe ou foi movida.
+              Que tal explorar alguns dos meus posts sobre desenvolvimento?
+            </p>
+
+            <div class="error-actions">
+              <a href="/" class="btn-primary">
+                <span class="btn-icon">🏠</span>
+                Voltar ao início
+              </a>
+              <a href="/search" class="btn-secondary">
+                <span class="btn-icon">🔍</span>
+                Buscar posts
+              </a>
+            </div>
+
+            <div class="error-suggestions">
+              <h3>Ou explore alguns tópicos populares:</h3>
+              <div class="topic-tags">
+                <a href="/search?q=go" class="topic-tag golang">Golang</a>
+                <a href="/search?q=typescript" class="topic-tag typescript"
+                  >TypeScript</a
+                >
+                <a href="/search?q=react" class="topic-tag react">React</a>
+                <a href="/search?q=performance" class="topic-tag performance"
+                  >Performance</a
+                >
+                <a href="/search?q=api" class="topic-tag api">APIs</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <BottomNav />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .error-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+  }
+
+  .error-content {
+    text-align: center;
+    max-width: 600px;
+  }
+
+  .error-code {
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--accent-purple);
+    margin: 0;
+    line-height: 1;
+    background: linear-gradient(
+      45deg,
+      var(--accent-purple),
+      var(--accent-blue)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 4px 8px rgba(162, 119, 255, 0.3));
+  }
+
+  .error-title {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .error-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 1.5rem 0 2.5rem;
+    line-height: 1.6;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary {
+    background: linear-gradient(
+      45deg,
+      var(--accent-purple),
+      var(--accent-blue)
+    );
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(162, 119, 255, 0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent-purple);
+    background: rgba(162, 119, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .btn-icon {
+    font-size: 1.1rem;
+  }
+
+  .error-suggestions {
+    margin-top: 2rem;
+  }
+
+  .error-suggestions h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .topic-tags {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .topic-tag {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+  }
+
+  .topic-tag.golang {
+    background: rgba(0, 173, 181, 0.15);
+    color: #00add5;
+    border-color: rgba(0, 173, 181, 0.3);
+  }
+
+  .topic-tag.typescript {
+    background: rgba(49, 120, 198, 0.15);
+    color: #3178c6;
+    border-color: rgba(49, 120, 198, 0.3);
+  }
+
+  .topic-tag.react {
+    background: rgba(97, 218, 251, 0.15);
+    color: #61dafb;
+    border-color: rgba(97, 218, 251, 0.3);
+  }
+
+  .topic-tag.performance {
+    background: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+    border-color: rgba(234, 179, 8, 0.3);
+  }
+
+  .topic-tag.api {
+    background: rgba(162, 119, 255, 0.15);
+    color: var(--accent-purple);
+    border-color: rgba(162, 119, 255, 0.3);
+  }
+
+  .topic-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .app-container {
+      flex-direction: column;
+    }
+
+    .main-content {
+      margin-left: 0;
+      padding: 1.5rem 1rem;
+      padding-bottom: 6rem;
+    }
+
+    .error-code {
+      font-size: 6rem;
+    }
+
+    .error-title {
+      font-size: 2rem;
+    }
+
+    .error-description {
+      font-size: 1rem;
+    }
+
+    .error-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+    }
+
+    .topic-tags {
+      gap: 0.6rem;
+    }
+
+    .topic-tag {
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .error-code {
+      font-size: 4.5rem;
+    }
+
+    .error-title {
+      font-size: 1.8rem;
+    }
+  }
+</style>
