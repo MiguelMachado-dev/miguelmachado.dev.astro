@@ -6,7 +6,7 @@ import { ogImageServiceUrl } from "../config/constants";
 
 const searchUrl = new URL("/search", Astro.site || "https://miguelmachado.dev")
   .href;
-const searchOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Buscar Posts - Miguel Machado")}&url=${searchUrl}`;
+const searchOgImage = `${ogImageServiceUrl}/title/${encodeURIComponent("Buscar Posts - Miguel Machado")}/url/${searchUrl}`;
 ---
 
 <BaseLayout
