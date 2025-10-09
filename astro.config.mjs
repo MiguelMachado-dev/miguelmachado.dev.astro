@@ -8,6 +8,9 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://miguelmachado.dev",
   trailingSlash: "never",
+  build: {
+    format: "file"
+  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "viewport",

@@ -32,3 +32,10 @@ status = 301
 from = "/portfolio"
 to = "https://portfolio.miguelmachado.dev"
 status = 301
+
+# Remove trailing slashes from all URLs (except root)
+[[redirects]]
+from = "/*/"
+to = "/:splat"
+status = 301
+force = true
