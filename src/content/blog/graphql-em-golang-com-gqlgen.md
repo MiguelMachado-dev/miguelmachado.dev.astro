@@ -1,7 +1,7 @@
 ---
 title: "GraphQL em Go com gqlgen: Construindo APIs de Forma Robusta e Tipada"
 description: 'Aprenda a construir APIs GraphQL modernas em Go usando a biblioteca gqlgen. Explore a abordagem schema-first, a geração automática de código e como criar resolvers desacoplados para um código limpo e manutenível.'
-pubDate: 2025-04-25T00:00:00.000Z
+pubDate: 2025-11-04T13:00:00.000Z
 author: Miguel Machado
 layout: post
 mainClass: go
