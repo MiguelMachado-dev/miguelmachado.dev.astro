@@ -5,7 +5,7 @@ pubDate: 2025-11-11T13:00:00.000Z
 author: Miguel Machado
 layout: post
 mainClass: go
-color: "#e10098"
+color: "#007d9c"
 tags: ['golang', 'go', 'garbage-collector', 'gc', 'memoria', 'performance', 'otimizacao', 'gogc', 'gomemlimit']
 slug: "garbage-collector-em-go-gestao-de-memoria-e-performance"
 draft: false
