@@ -68,7 +68,7 @@ Ajustar o `GOGC` é sobre encontrar o trade-off ideal para o seu caso de uso esp
     **Prós:** Menos ciclos de GC, resultando em menos overhead de CPU.
     **Contras:** Maior pico de consumo de memória (RAM).
 
-### `GOMEMLIMIT`: O Limite Suave de Memória (Go 1.18+)
+### `GOMEMLIMIT`: O Limite Suave de Memória (Go 1.19+)
 
 Uma adição mais recente e poderosa ao arsenal de otimização é o `GOMEMLIMIT`.
 
