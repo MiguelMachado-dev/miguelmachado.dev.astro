@@ -74,7 +74,7 @@ Uma adição mais recente e poderosa ao arsenal de otimização é o `GOMEMLIMIT
 
 Enquanto o `GOGC` controla o GC baseado no *crescimento* do heap (uma porcentagem), o `GOMEMLIMIT` define um **limite de memória "suave"** (um valor absoluto, como `GOMEMLIMIT=1024MiB`).
 
-Isso é *extremamente* útil em ambientes de containers (como Kubernetes ou Docker), onde sua aplicação tem uma cota de memória fixa (ex: 1GB). Se a memória total usada pelo Go se aproximar desse limite, o `GOMEMLIMIT` força o GC a rodar de forma mais agressiva para tentar permanecer abaixo da cota.
+Isso é *extremamente* útil em ambientes de containers (como Kubernetes ou Docker), onde sua aplicação tem uma cota de memória fixa (ex: 1GB). Se a memória total usada pelo Go se aproximar desse limite, o `GOMEMLIMIT` força o GC a rodar de forma mais agressiva para tentar permanecer abaixo da cota. A documentação diz que esse limite é “soft”, ou seja, o runtime _tenta_ manter-se abaixo, mas não garante que nunca ultrapasse o limite em casos de picos ou cargas muito rápidas.
 
 **O objetivo principal do `GOMEMLIMIT` é evitar um OOMKill (Out of Memory Kill)** do orquestrador, sacrificando um pouco de CPU (rodando o GC mais vezes) para se manter dentro do limite de RAM.
 
