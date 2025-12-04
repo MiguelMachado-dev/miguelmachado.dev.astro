@@ -427,8 +427,8 @@ func NewBcryptHasher(cost int) *BcryptHasher {
 }
 
 func (h *BcryptHasher) Hash(password string) (string, error) {
-    bytes, err := bcrypt.GenerateFromPassword([]byte(password), h.cost)
-    return string(bytes), err
+    hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), h.cost)
+    return string(hashedBytes), err
 }
 
 func (h *BcryptHasher) Compare(hashedPassword, password string) error {
