@@ -1,3 +1,13 @@
+[build]
+  publish = "dist"
+
+# Disable automatic trailing slash redirects
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = false
+
 [[redirects]]
 from = "/todos-os-meus-links"
 to = "https://meus-links.miguelmachado.dev/"
