@@ -1,12 +1,12 @@
 [build]
   publish = "dist"
 
-# Remove trailing slashes - redirect URLs with / to without /
-[[redirects]]
-  from = "/*/"
-  to = "/:splat"
-  status = 301
-  force = true
+# Disable automatic trailing slash redirects
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = false
 
 [[redirects]]
 from = "/todos-os-meus-links"
