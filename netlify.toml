@@ -8,6 +8,12 @@
 [build.processing.html]
   pretty_urls = false
 
+# Redirect trailing slashes to non-trailing slash version
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+
 [[redirects]]
 from = "/todos-os-meus-links"
 to = "https://meus-links.miguelmachado.dev/"
