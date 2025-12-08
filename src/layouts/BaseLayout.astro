@@ -25,7 +25,13 @@ const currentUrl = new URL(
   Astro.url.pathname,
   Astro.site || "https://miguelmachado.dev"
 );
-const canonicalUrl = canonical || currentUrl.href;
+
+// Ensure canonical URL never has trailing slash (except homepage)
+let normalizedHref = currentUrl.href;
+if (normalizedHref.endsWith('/') && currentUrl.pathname !== '/') {
+  normalizedHref = normalizedHref.slice(0, -1);
+}
+const canonicalUrl = canonical || normalizedHref;
 ---
 
 <!doctype html>
