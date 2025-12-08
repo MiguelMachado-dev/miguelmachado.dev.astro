@@ -830,7 +830,7 @@ ecommerce-mf/
 
 ## Conclusão
 
-Microfrontends não são uma bala de prata. São uma ferramenta arquitetural para resolver problemas específicos de escala — tanto técnica quanto organizacional. A complexidade adicional só se justifica quando os benefícios de autonomia e deploy independente superam o custo de coordenação.
+Microfrontends não são uma bala de prata. São uma ferramenta arquitetural para resolver problemas específicos de escala, tanto técnica quanto organizacional. A complexidade adicional só se justifica quando os benefícios de autonomia e deploy independente superam o custo de coordenação.
 
 Se você está começando um projeto novo com um time pequeno, provavelmente não precisa de microfrontends. Mas se você trabalha em uma organização onde múltiplos times precisam entregar features independentemente em uma mesma aplicação, essa arquitetura pode ser a chave para desbloquear a velocidade de entrega.
 
