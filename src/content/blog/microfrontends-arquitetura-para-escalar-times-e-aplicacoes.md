@@ -84,7 +84,7 @@ Microfrontends aplicam os princípios de microserviços ao frontend. A ideia é 
      Repo A         Repo B          Repo C          Repo D
 ```
 
-> **Conceito-chave**: Cada microfrontend é uma unidade vertical completa — do componente de UI até a comunicação com APIs. Times são donos de features, não de camadas.
+> **Conceito-chave**: Cada microfrontend é uma unidade vertical completa. do componente de UI até a comunicação com APIs. Times são donos de features, não de camadas.
 
 ## Estratégias de Implementação
 
