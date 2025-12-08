@@ -38,7 +38,7 @@ Em uma arquitetura tradicional de SPA (Single Page Application), tudo isso vive 
 │  │  Busca   │ │    Recomendações     │ │  Componentes UI  │    │
 │  └──────────┘ └──────────────────────┘ └──────────────────┘    │
 │                                                                 │
-│  package.json (500+ dependências)                               │
+│  package.json (100+ dependências)                               │
 │  Build time: 15+ minutos                                        │
 │  Bundle size: 2MB+ (gzipped)                                    │
 └─────────────────────────────────────────────────────────────────┘
