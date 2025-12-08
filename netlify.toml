@@ -13,6 +13,7 @@
   from = "/*/"
   to = "/:splat"
   status = 301
+  force = true
 
 [[redirects]]
 from = "/todos-os-meus-links"
