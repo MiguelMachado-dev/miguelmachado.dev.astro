@@ -1,3 +1,13 @@
+[build]
+  publish = "dist"
+
+# Remove trailing slashes - redirect URLs with / to without /
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
 from = "/todos-os-meus-links"
 to = "https://meus-links.miguelmachado.dev/"
