@@ -838,4 +838,4 @@ A melhor arquitetura é aquela que resolve os problemas reais do seu contexto. E
 
 ---
 
-**E você?** Já trabalhou com microfrontends? Quais desafios encontrou? Compartilhe suas experiências nos comentários!
+**E você?** Já trabalhou com microfrontends? Quais desafios encontrou?
