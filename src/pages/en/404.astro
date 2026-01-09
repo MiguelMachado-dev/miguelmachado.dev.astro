@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getTranslations } from "../../i18n";
+
+const lang = "en";
+const t = getTranslations(lang);
+---
+
+<BaseLayout
+  title={t.notFound.title}
+  description={t.notFound.message}
+  lang={lang}
+>
+  <div class="not-found">
+    <h1>404</h1>
+    <p>{t.notFound.message}</p>
+    <a href="/en">{t.notFound.backHome}</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 6rem;
+    color: var(--accent-purple);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  a {
+    color: var(--accent-purple);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--accent-purple);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  a:hover {
+    background: var(--accent-purple);
+    color: var(--bg-primary);
+  }
+</style>
