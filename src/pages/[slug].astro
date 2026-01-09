@@ -5,9 +5,14 @@ import BottomNav from "../components/BottomNav.astro";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import { ogImageServiceUrl } from "../config/constants";
+import { getTranslations, formatDate } from "../i18n";
+import { getTranslationSlug, getPostSlug, getPostUrl } from "../lib/posts";
+
+const lang = "pt";
+const t = getTranslations(lang);
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection("blog");
+  const blogEntries = await getCollection("blogPt");
   // Sort by date descending (newest first)
   const sortedEntries = blogEntries
     .filter((entry) => !entry.data.draft)
@@ -18,8 +23,8 @@ export async function getStaticPaths() {
       index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null;
     const nextPost = index > 0 ? sortedEntries[index - 1] : null;
 
-    // Use custom slug if provided, otherwise use the file name (entry.id)
-    const slug = entry.data.slug || entry.id;
+    // Use custom slug if provided, otherwise use the file name (entry.id) without .md extension
+    const slug = entry.data.slug || entry.id.replace(/\.md$/, "");
 
     return {
       params: { slug },
@@ -31,9 +36,12 @@ export async function getStaticPaths() {
 const { entry, prevPost, nextPost } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
+// Get translation slug for language switcher
+const translationSlug = await getTranslationSlug(entry.id, "en");
+
 // SEO data
-// Use custom slug if provided, otherwise use the file name (entry.id)
-const slug = entry.data.slug || entry.id;
+// Use custom slug if provided, otherwise use the file name (entry.id) without .md extension
+const slug = entry.data.slug || entry.id.replace(/\.md$/, "");
 const postUrl = new URL(`/${slug}`, Astro.site || "https://miguelmachado.dev")
   .href;
 const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.title)}&url=${postUrl}`;
@@ -47,9 +55,11 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
   articleDate={entry.data.pubDate}
   articleTags={entry.data.tags}
   canonical={postUrl}
+  lang={lang}
+  alternateSlug={translationSlug}
 >
   <div class="app-container">
-    <Sidebar />
+    <Sidebar translationSlug={translationSlug} />
 
     <main class="main-content">
       <div class="content-wrapper">
@@ -65,19 +75,13 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
             >
               <path d="M19 12H5M12 19l-7-7 7-7"></path>
             </svg>
-            Voltar ao início
+            {t.blog.backToHome}
           </a>
 
           <header class="post-header">
             <div class="post-meta-top" data-pagefind-ignore>
               <time datetime={entry.data.pubDate.toISOString()}>
-                {
-                  entry.data.pubDate.toLocaleDateString("pt-BR", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })
-                }
+                {formatDate(entry.data.pubDate, lang)}
               </time>
               <span>•</span>
               <span>{remarkPluginFrontmatter.minutesRead}</span>
@@ -141,7 +145,7 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
               <nav class="post-navigation" data-pagefind-ignore>
                 {prevPost && (
                   <a
-                    href={`/${prevPost.data.slug || prevPost.id}`}
+                    href={`/${prevPost.data.slug || prevPost.id.replace(/\.md$/, "")}`}
                     class="nav-post prev-post"
                   >
                     <span class="nav-label">
@@ -155,7 +159,7 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
                       >
                         <path d="M19 12H5M12 19l-7-7 7-7" />
                       </svg>
-                      Post Anterior
+                      {t.blog.previousPost}
                     </span>
                     <span class="nav-title">{prevPost.data.title}</span>
                   </a>
@@ -163,11 +167,11 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
 
                 {nextPost && (
                   <a
-                    href={`/${nextPost.data.slug || nextPost.id}`}
+                    href={`/${nextPost.data.slug || nextPost.id.replace(/\.md$/, "")}`}
                     class="nav-post next-post"
                   >
                     <span class="nav-label">
-                      Próximo Post
+                      {t.blog.nextPost}
                       <svg
                         width="20"
                         height="20"
@@ -188,7 +192,7 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
         </article>
       </div>
 
-      <BottomNav activePage="post" />
+      <BottomNav activePage="post" translationSlug={translationSlug} />
     </main>
   </div>
 </BaseLayout>

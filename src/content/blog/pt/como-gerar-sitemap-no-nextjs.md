@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image: ../../assets/img/sitemap.png
+image: ../../../assets/img/sitemap.png
 tags: ['tutorial', 'nextjs', 'sitemap']
 draft: false
 ---

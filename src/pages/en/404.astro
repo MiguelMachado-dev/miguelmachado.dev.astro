@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { getTranslations } from "../i18n";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getTranslations } from "../../i18n";
 
-const lang = "pt";
+const lang = "en";
 const t = getTranslations(lang);
 ---
 
@@ -14,7 +14,7 @@ const t = getTranslations(lang);
   <div class="not-found">
     <h1>404</h1>
     <p>{t.notFound.message}</p>
-    <a href="/">{t.notFound.backHome}</a>
+    <a href="/en">{t.notFound.backHome}</a>
   </div>
 </BaseLayout>
 

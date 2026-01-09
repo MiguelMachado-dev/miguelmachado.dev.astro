@@ -1,0 +1,104 @@
+---
+// src/components/LanguageSwitcher.astro
+import { getLangFromUrl, languages, type Lang } from "../i18n";
+
+interface Props {
+  translationSlug?: string | null;
+  compact?: boolean;
+}
+
+const { translationSlug, compact = false } = Astro.props;
+const currentLang = getLangFromUrl(Astro.url);
+const targetLang: Lang = currentLang === "pt" ? "en" : "pt";
+
+// Build alternate URL
+let alternateUrl: string;
+if (translationSlug) {
+  alternateUrl = targetLang === "en" ? `/en/${translationSlug}` : `/${translationSlug}`;
+} else {
+  // For static pages (home, search), derive from current path
+  const currentPath = Astro.url.pathname;
+  if (currentLang === "pt") {
+    // Going to English
+    if (currentPath === "/" || currentPath === "") {
+      alternateUrl = "/en";
+    } else {
+      alternateUrl = `/en${currentPath}`;
+    }
+  } else {
+    // Going to Portuguese - remove /en prefix
+    // Handle both /en and /en/ and /en.html for homepage
+    if (currentPath === "/en" || currentPath === "/en/" || currentPath === "/en.html") {
+      alternateUrl = "/";
+    } else {
+      const ptPath = currentPath.replace(/^\/en\//, "/");
+      alternateUrl = ptPath || "/";
+    }
+  }
+}
+
+const targetLabel = languages[targetLang];
+---
+
+{compact ? (
+  <a
+    href={alternateUrl}
+    class="lang-switch-compact"
+    aria-label={`Switch to ${targetLabel}`}
+    title={`Switch to ${targetLabel}`}
+  >
+    {targetLang === "en" ? "EN" : "BR"}
+  </a>
+) : (
+  <a href={alternateUrl} class="lang-switch" aria-label={`Switch to ${targetLabel}`}>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+    <span>{targetLabel}</span>
+  </a>
+)}
+
+<style>
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    font-size: 0.875rem;
+  }
+
+  .lang-switch:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .lang-switch-compact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .lang-switch-compact:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+  }
+</style>

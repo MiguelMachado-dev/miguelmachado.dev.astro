@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import PostCard from "../../components/PostCard.astro";
+import BottomNav from "../../components/BottomNav.astro";
+import { ogImageServiceUrl } from "../../config/constants";
+import { getPublishedPosts, getPostSlug, tagColorMap } from "../../lib/posts";
+import { getTranslations } from "../../i18n";
+
+const lang = "en";
+const t = getTranslations(lang);
+
+const allPosts = await getPublishedPosts(lang);
+
+const homeUrl = new URL("/en", Astro.site || "https://miguelmachado.dev").href;
+const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.title)}`;
+---
+
+<BaseLayout
+  title={t.home.title}
+  description={t.home.description}
+  ogImage={homeOgImage}
+  canonical={homeUrl}
+  lang={lang}
+>
+  <div class="app-container" data-pagefind-ignore="all">
+    <Sidebar />
+
+    <main class="main-content">
+      <div class="content-wrapper">
+        <div class="posts-grid">
+          {
+            allPosts.map((post) => {
+              const firstTag = post.data.tags?.[0]?.toLowerCase() || "";
+              const tagColor = tagColorMap[firstTag] || "blue";
+
+              return (
+                <PostCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  slug={getPostSlug(post)}
+                  tag={post.data.tags?.[0]?.toUpperCase()}
+                  tagColor={tagColor}
+                  lang={lang}
+                />
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <BottomNav activePage="home" />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .posts-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .app-container {
+      flex-direction: column;
+    }
+
+    .main-content {
+      margin-left: 0;
+      padding: 1.5rem 1rem;
+      padding-bottom: 6rem;
+    }
+  }
+</style>

@@ -6,8 +6,10 @@ author: Miguel Machado
 layout: post
 mainClass: misc
 color: "#7AAB13"
-image: ../../assets/img/alexa-echo-dot.jpg
+image: ../../../assets/img/alexa-echo-dot.jpg
 tags: ["alexa"]
+slug: "how-i-automated-my-pc-using-alexa"
+translationId: "how-i-automated-my-PC-using-Alexa-and-programming"
 draft: false
 ---
 

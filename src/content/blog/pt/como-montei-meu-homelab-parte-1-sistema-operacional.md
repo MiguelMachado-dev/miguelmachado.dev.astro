@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: dev
 color: "#637a91"
-image: ../../assets/img/leonardo_diffusion_homelab_0.jpg
+image: ../../../assets/img/leonardo_diffusion_homelab_0.jpg
 tags: ['homelab', 'proxmox']
 draft: false
 ---

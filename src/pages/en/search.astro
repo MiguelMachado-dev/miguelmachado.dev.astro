@@ -1,14 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Sidebar from "../components/Sidebar.astro";
-import BottomNav from "../components/BottomNav.astro";
-import { ogImageServiceUrl } from "../config/constants";
-import { getTranslations } from "../i18n";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import BottomNav from "../../components/BottomNav.astro";
+import { ogImageServiceUrl } from "../../config/constants";
+import { getTranslations } from "../../i18n";
 
-const lang = "pt";
+const lang = "en";
 const t = getTranslations(lang);
 
-const searchUrl = new URL("/search", Astro.site || "https://miguelmachado.dev")
+const searchUrl = new URL("/en/search", Astro.site || "https://miguelmachado.dev")
   .href;
 const searchOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.search.title)}&url=${searchUrl}`;
 ---
