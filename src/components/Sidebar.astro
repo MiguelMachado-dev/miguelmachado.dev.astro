@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { getLangFromUrl, getTranslations, getHomePath, getSearchPath } from "../i18n";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
@@ -16,101 +15,112 @@ const searchPath = getSearchPath(lang);
 
 <aside class="sidebar">
   <div class="sidebar-content">
-    <a href={homePath} class="profile-link">
-      <div class="profile">
-        <div class="avatar">
-          <img
-            src="https://github.com/MiguelMachado-dev.png"
-            alt="Miguel Machado"
-            width="80"
-            height="80"
-            loading="eager"
-          />
+    <!-- Brand / Logo Section -->
+    <a href={homePath} class="brand-link">
+      <div class="brand">
+        <div class="avatar-container">
+          <div class="avatar">
+            <img
+              src="https://github.com/MiguelMachado-dev.png"
+              alt="Miguel Machado"
+              width="72"
+              height="72"
+              loading="eager"
+            />
+          </div>
+          <div class="avatar-ring"></div>
         </div>
-        <div class="profile-info">
-          <h1 class="name">Miguel Machado</h1>
-          <p class="title">Senior Software Engineer</p>
-          <p class="bio">
-            {t.sidebar.bio}
-          </p>
+        <div class="brand-info">
+          <h1 class="brand-name">Miguel Machado</h1>
+          <p class="brand-title">Senior Software Engineer</p>
         </div>
       </div>
     </a>
 
+    <!-- Bio Section -->
+    <p class="bio">
+      {t.sidebar.bio}
+    </p>
+
+    <!-- Social Links -->
     <div class="social-links">
       <a
         href="https://github.com/MiguelMachado-dev"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="GitHub"
+        class="social-link"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path
             d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
           ></path>
         </svg>
+        <span>GitHub</span>
       </a>
       <a
         href="https://linkedin.com/in/miguel-machado"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn"
+        class="social-link"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path
             d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
           ></path>
         </svg>
+        <span>LinkedIn</span>
       </a>
     </div>
 
+    <!-- Navigation -->
     <nav class="main-nav">
-      <ul>
-        <li>
-          <a
-            href={homePath}
-            data-nav-link={homePath}
-            class={Astro.url.pathname === homePath || Astro.url.pathname === `${homePath}/` ? "active" : ""}
+      <a
+        href={homePath}
+        data-nav-link={homePath}
+        class={`nav-link ${Astro.url.pathname === homePath || Astro.url.pathname === `${homePath}/` ? "active" : ""}`}
+      >
+        <span class="nav-icon">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span>{t.nav.home}</span>
-          </a>
-        </li>
-        <li>
-          <a
-            href={searchPath}
-            data-nav-link={searchPath}
-            class={Astro.url.pathname === searchPath || Astro.url.pathname === `${searchPath}/` ? "active" : ""}
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </span>
+        <span class="nav-text">{t.nav.home}</span>
+      </a>
+      <a
+        href={searchPath}
+        data-nav-link={searchPath}
+        class={`nav-link ${Astro.url.pathname === searchPath || Astro.url.pathname === `${searchPath}/` ? "active" : ""}`}
+      >
+        <span class="nav-icon">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.35-4.35"></path>
-            </svg>
-            <span>{t.nav.search}</span>
-          </a>
-        </li>
-        <li>
-          <LanguageSwitcher translationSlug={translationSlug} />
-        </li>
-      </ul>
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </span>
+        <span class="nav-text">{t.nav.search}</span>
+      </a>
+      <div class="nav-link lang-nav">
+        <LanguageSwitcher translationSlug={translationSlug} />
+      </div>
     </nav>
+
   </div>
 </aside>
 
@@ -129,10 +139,7 @@ const searchPath = getSearchPath(lang);
     });
   }
 
-  // Update on initial load
   document.addEventListener("DOMContentLoaded", updateActiveNav);
-
-  // Update on view transitions
   document.addEventListener("astro:page-load", updateActiveNav);
 </script>
 
@@ -141,138 +148,222 @@ const searchPath = getSearchPath(lang);
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
+    width: var(--sidebar-width);
     height: 100vh;
-    background-color: var(--bg-secondary);
-    border-right: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-light);
     overflow-y: auto;
     z-index: 100;
   }
 
   .sidebar-content {
-    padding: 2rem 1.5rem;
+    padding: var(--space-2xl) var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
   }
 
-  .profile-link {
+  /* Brand Section */
+  .brand-link {
     display: block;
     text-decoration: none;
     color: inherit;
-    transition: opacity 0.2s;
+    margin-bottom: var(--space-lg);
   }
 
-  .profile-link:hover {
-    opacity: 0.9;
-  }
-
-  .profile-link:hover .name {
-    color: var(--accent-purple-hover);
-  }
-
-  .profile {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .avatar {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1rem;
-    border-radius: 50%;
-    overflow: hidden;
-    background: linear-gradient(
-      135deg,
-      var(--accent-purple),
-      var(--accent-blue)
-    );
-    padding: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .avatar :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    background: var(--bg-secondary);
-    padding: 8px;
-  }
-
-  .profile-info {
+  .brand {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 
-  .name {
-    font-size: 1.25rem;
+  .avatar-container {
+    position: relative;
+    margin-bottom: var(--space-lg);
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    box-shadow: var(--shadow-md);
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .brand-link:hover .avatar img {
+    transform: scale(1.05);
+  }
+
+  .avatar-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    z-index: 1;
+    transition: border-color var(--transition-base);
+  }
+
+  .brand-link:hover .avatar-ring {
+    border-color: var(--accent-primary);
+  }
+
+  .brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
     font-weight: 600;
-    margin-bottom: 0.25rem;
     color: var(--text-primary);
+    letter-spacing: -0.02em;
+    transition: color var(--transition-fast);
   }
 
-  .title {
+  .brand-link:hover .brand-name {
+    color: var(--accent-primary);
+  }
+
+  .brand-title {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  /* Bio */
+  .bio {
     font-size: 0.875rem;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    line-height: 1.7;
+    text-align: center;
+    margin-bottom: var(--space-lg);
   }
 
-  .bio {
-    font-size: 0.813rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
+  /* Social Links */
   .social-links {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
   }
 
-  .social-links a {
-    color: var(--text-secondary);
-    transition: color 0.2s;
-  }
-
-  .social-links a:hover {
-    color: var(--text-primary);
-  }
-
-  .main-nav ul {
-    list-style: none;
-  }
-
-  .main-nav li {
-    margin-bottom: 0.5rem;
-  }
-
-  .main-nav a {
+  .social-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.625rem 1rem;
-    border-radius: 8px;
-    color: var(--text-secondary);
-    transition: all 0.2s;
-    font-size: 0.875rem;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    color: var(--text-tertiary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    background: var(--bg-secondary);
   }
 
-  .main-nav a:hover {
-    background-color: var(--bg-card);
+  .social-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+
+  .social-link svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .social-link:hover svg {
+    transform: translateY(-1px);
+  }
+
+  /* Navigation */
+  .main-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    flex: 1;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    position: relative;
+  }
+
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--accent-primary);
+    border-radius: 0 2px 2px 0;
+    transition: height var(--transition-base);
+  }
+
+  .nav-link:hover {
+    background-color: var(--bg-secondary);
     color: var(--text-primary);
   }
 
-  .main-nav a.active {
-    background-color: var(--bg-card);
-    color: var(--accent-purple);
-    border-left: 3px solid var(--accent-purple-hover);
-    padding-left: calc(1rem - 3px);
+  .nav-link:hover::before {
+    height: 50%;
   }
 
+  .nav-link.active {
+    background-color: var(--accent-primary-light);
+    color: var(--accent-primary);
+  }
+
+  .nav-link.active::before {
+    height: 60%;
+    background: var(--accent-primary);
+  }
+
+  .nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .lang-nav {
+    padding: 0;
+    background: transparent;
+    margin-top: auto;
+    padding-top: var(--space-md);
+  }
+
+  .lang-nav:hover {
+    background: transparent;
+  }
+
+  .lang-nav::before {
+    display: none;
+  }
+
+  /* Mobile Styles */
   @media (max-width: 768px) {
     .sidebar {
       width: 100%;
@@ -280,41 +371,47 @@ const searchPath = getSearchPath(lang);
       position: sticky;
       top: 0;
       border-right: none;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-light);
       z-index: 100;
     }
 
     .sidebar-content {
-      padding: 1.5rem 1rem;
-    }
-
-    .profile {
-      margin-bottom: 0;
-      display: flex;
+      padding: var(--space-lg) var(--space-md);
+      flex-direction: row;
       align-items: center;
-      gap: 1rem;
-      justify-content: center;
+      justify-content: space-between;
+      min-height: auto;
     }
 
-    .avatar {
-      width: 50px;
-      height: 50px;
-      margin: 0;
+    .brand-link {
+      margin-bottom: 0;
     }
 
-    .profile-info {
-      align-items: flex-start;
+    .brand {
+      flex-direction: row;
+      gap: var(--space-md);
       text-align: left;
     }
 
-    .name {
-      font-size: 1.125rem;
-      margin-bottom: 0.125rem;
+    .avatar-container {
+      margin-bottom: 0;
     }
 
-    .title {
-      font-size: 0.8125rem;
-      margin-bottom: 0;
+    .avatar {
+      width: 48px;
+      height: 48px;
+    }
+
+    .avatar-ring {
+      inset: -3px;
+    }
+
+    .brand-name {
+      font-size: 1.125rem;
+    }
+
+    .brand-title {
+      font-size: 0.75rem;
     }
 
     .bio {

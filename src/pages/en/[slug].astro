@@ -13,7 +13,6 @@ const t = getTranslations(lang);
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blogEn");
-  // Sort by date descending (newest first)
   const sortedEntries = blogEntries
     .filter((entry) => !entry.data.draft)
     .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
@@ -22,8 +21,6 @@ export async function getStaticPaths() {
     const prevPost =
       index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null;
     const nextPost = index > 0 ? sortedEntries[index - 1] : null;
-
-    // Use custom slug if provided, otherwise use the file name (entry.id) without .md extension
     const slug = entry.data.slug || entry.id.replace(/\.md$/, "");
 
     return {
@@ -36,11 +33,8 @@ export async function getStaticPaths() {
 const { entry, prevPost, nextPost } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
-// Get translation slug for language switcher
 const translationSlug = await getTranslationSlug(entry.id, "pt", entry.data.translationId);
 
-// SEO data
-// Use custom slug if provided, otherwise use the file name (entry.id) without .md extension
 const slug = entry.data.slug || entry.id.replace(/\.md$/, "");
 const postUrl = new URL(`/en/${slug}`, Astro.site || "https://miguelmachado.dev")
   .href;
@@ -64,27 +58,29 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
     <main class="main-content">
       <div class="content-wrapper">
         <article class="post-article">
+          <!-- Back Link -->
           <a href="/en" class="back-link" data-pagefind-ignore>
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
+              stroke-width="1.5"
             >
               <path d="M19 12H5M12 19l-7-7 7-7"></path>
             </svg>
-            {t.blog.backToHome}
+            <span>{t.blog.backToHome}</span>
           </a>
 
+          <!-- Article Header -->
           <header class="post-header">
-            <div class="post-meta-top" data-pagefind-ignore>
-              <time datetime={entry.data.pubDate.toISOString()}>
+            <div class="post-meta" data-pagefind-ignore>
+              <time datetime={entry.data.pubDate.toISOString()} class="post-date">
                 {formatDate(entry.data.pubDate, lang)}
               </time>
-              <span>•</span>
-              <span>{remarkPluginFrontmatter.minutesRead}</span>
+              <span class="meta-separator"></span>
+              <span class="reading-time">{remarkPluginFrontmatter.minutesRead}</span>
             </div>
 
             <h1 class="post-title" data-pagefind-meta="title">
@@ -96,11 +92,6 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
             {
               entry.data.tags && entry.data.tags.length > 0 && (
                 <div class="post-tags" data-pagefind-ignore>
-                  {entry.data.mainClass && (
-                    <span class={`tag-badge tag-${entry.data.mainClass}`}>
-                      {entry.data.mainClass.toUpperCase()}
-                    </span>
-                  )}
                   {entry.data.tags.map((tag) => (
                     <span class="tag">#{tag}</span>
                   ))}
@@ -109,10 +100,10 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
             }
           </header>
 
+          <!-- Featured Image -->
           {
             entry.data.image && (
               <div class="post-image" data-pagefind-ignore>
-                {/* Handle new optimized format (direct image path) */}
                 {typeof entry.data.image === "object" &&
                 "src" in entry.data.image ? (
                   <Image
@@ -124,7 +115,6 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
                   />
                 ) : typeof entry.data.image === "object" &&
                   "url" in entry.data.image ? (
-                  /* Handle old format (object with url/alt) - NOT optimized */
                   <img
                     src={entry.data.image.url}
                     alt={entry.data.image.alt}
@@ -135,57 +125,46 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
             )
           }
 
+          <!-- Article Content -->
           <div class="post-content prose" data-pagefind-body>
             <Content />
           </div>
 
-          <!-- Previous/Next Post Navigation -->
+          <!-- Post Navigation -->
           {
             (prevPost || nextPost) && (
               <nav class="post-navigation" data-pagefind-ignore>
-                {prevPost && (
-                  <a
-                    href={`/en/${prevPost.data.slug || prevPost.id.replace(/\.md$/, "")}`}
-                    class="nav-post prev-post"
-                  >
-                    <span class="nav-label">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                      </svg>
-                      {t.blog.previousPost}
-                    </span>
-                    <span class="nav-title">{prevPost.data.title}</span>
-                  </a>
-                )}
-
-                {nextPost && (
-                  <a
-                    href={`/en/${nextPost.data.slug || nextPost.id.replace(/\.md$/, "")}`}
-                    class="nav-post next-post"
-                  >
-                    <span class="nav-label">
-                      {t.blog.nextPost}
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                    <span class="nav-title">{nextPost.data.title}</span>
-                  </a>
-                )}
+                <h3 class="nav-heading">Keep reading</h3>
+                <div class="nav-grid">
+                  {prevPost && (
+                    <a
+                      href={`/en/${prevPost.data.slug || prevPost.id.replace(/\.md$/, "")}`}
+                      class="nav-card prev"
+                    >
+                      <span class="nav-direction">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path d="M19 12H5M12 19l-7-7 7-7" />
+                        </svg>
+                        {t.blog.previousPost}
+                      </span>
+                      <span class="nav-title">{prevPost.data.title}</span>
+                    </a>
+                  )}
+                  {nextPost && (
+                    <a
+                      href={`/en/${nextPost.data.slug || nextPost.id.replace(/\.md$/, "")}`}
+                      class="nav-card next"
+                    >
+                      <span class="nav-direction">
+                        {t.blog.nextPost}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                      <span class="nav-title">{nextPost.data.title}</span>
+                    </a>
+                  )}
+                </div>
               </nav>
             )
           }
@@ -205,123 +184,119 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
 
   .main-content {
     flex: 1;
-    margin-left: 280px;
-    padding: 2rem;
-    padding-bottom: 5rem;
+    margin-left: var(--sidebar-width);
+    padding: var(--space-2xl);
+    padding-bottom: var(--space-4xl);
+    background: var(--bg-primary);
   }
 
   .content-wrapper {
-    max-width: 900px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
   }
 
   .post-article {
     background-color: var(--bg-card);
-    border-radius: 12px;
-    padding: 3rem;
-    box-shadow: var(--card-shadow);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-3xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
   }
 
+  /* Back Link */
   .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.938rem;
-    margin-bottom: 2rem;
-    transition: color 0.2s;
+    gap: var(--space-sm);
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
     font-weight: 500;
+    margin-bottom: var(--space-2xl);
+    transition: all var(--transition-fast);
   }
 
   .back-link:hover {
-    color: var(--accent-purple-hover);
+    color: var(--accent-primary);
   }
 
   .back-link svg {
-    transition: transform 0.2s;
+    transition: transform var(--transition-fast);
   }
 
   .back-link:hover svg {
-    transform: translateX(-3px);
+    transform: translateX(-4px);
   }
 
+  /* Post Header */
   .post-header {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+    border-bottom: 1px solid var(--border-light);
   }
 
-  .post-meta-top {
+  .post-meta {
     display: flex;
-    gap: 0.75rem;
     align-items: center;
-    color: var(--text-secondary);
-    font-size: 0.938rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    font-size: 0.875rem;
   }
 
-  .post-meta-top time {
-    color: var(--accent-cyan);
+  .post-date {
+    color: var(--accent-primary);
+    font-weight: 500;
+  }
+
+  .meta-separator {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--border-medium);
+  }
+
+  .reading-time {
+    color: var(--text-muted);
   }
 
   .post-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-lg);
     line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-shadow: 3px 3px 0 var(--accent-primary-light);
   }
 
   .post-description {
     font-size: 1.125rem;
     color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
   }
 
   .post-tags {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .tag-badge {
-    padding: 0.35rem 0.875rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .tag-badge.tag-go {
-    background: #00add8;
-    color: #fff;
-  }
-
-  .tag-badge.tag-proto {
-    background: #a277ff;
-    color: #fff;
-  }
-
-  .tag-badge.tag-dev {
-    background: #a277ff;
-    color: #fff;
   }
 
   .tag {
-    color: var(--text-secondary);
-    padding: 0.35rem 0.5rem;
-    font-size: 0.813rem;
+    color: var(--text-tertiary);
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.3px;
+    transition: color var(--transition-fast);
   }
 
+  .tag:hover {
+    color: var(--accent-primary);
+  }
+
+  /* Post Image */
   .post-image {
-    margin: 2rem 0;
-    border-radius: 12px;
+    margin: var(--space-2xl) calc(var(--space-xl) * -1);
+    border-radius: var(--radius-lg);
     overflow: hidden;
   }
 
@@ -331,172 +306,72 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
     display: block;
   }
 
+  /* Post Content - Prose Styles */
   .post-content {
     color: var(--text-primary);
   }
 
-  /* Post Navigation */
-  .post-navigation {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .nav-post {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.5rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    min-height: 100px;
-    box-shadow: var(--card-shadow);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .nav-post::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--accent-purple);
-    opacity: 0.9;
-    transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .nav-post:hover {
-    border-color: var(--accent-purple);
-    box-shadow: var(--card-shadow-hover-strong), var(--card-shadow-hover-light);
-    transform: translateY(-5px);
-  }
-
-  .nav-post:hover::before {
-    opacity: 1;
-  }
-
-  .prev-post {
-    text-align: left;
-  }
-
-  .next-post {
-    text-align: right;
-    grid-column: 2;
-  }
-
-  .nav-post:only-child {
-    grid-column: 1 / -1;
-    max-width: 50%;
-  }
-
-  .nav-post:only-child.next-post {
-    margin-left: auto;
-  }
-
-  .nav-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: color 0.3s ease;
-  }
-
-  .next-post .nav-label {
-    justify-content: flex-end;
-  }
-
-  .nav-post:hover .nav-label {
-    color: var(--accent-purple-hover);
-  }
-
-  .nav-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .nav-post svg {
-    transition: transform 0.3s ease;
-  }
-
-  .prev-post:hover svg {
-    transform: translateX(-3px);
-  }
-
-  .next-post:hover svg {
-    transform: translateX(3px);
-  }
-
-  /* Prose styles for markdown content */
   .prose :global(h1),
   .prose :global(h2),
   .prose :global(h3),
-  .prose :global(h4),
-  .prose :global(h5),
-  .prose :global(h6) {
+  .prose :global(h4) {
+    font-family: var(--font-display);
+    font-weight: 500;
     color: var(--text-primary);
-    font-weight: 600;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-md);
     line-height: 1.3;
-  }
-
-  .prose :global(h1) {
-    font-size: 2rem;
+    letter-spacing: -0.02em;
   }
 
   .prose :global(h2) {
-    font-size: 1.75rem;
+    font-size: 1.625rem;
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border-light);
   }
 
   .prose :global(h3) {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
+  }
+
+  .prose :global(h4) {
+    font-size: 1.125rem;
   }
 
   .prose :global(p) {
-    margin-bottom: 1.25rem;
-    line-height: 1.8;
+    margin-bottom: var(--space-lg);
+    line-height: 1.85;
     color: var(--text-secondary);
+    font-size: 1.0625rem;
   }
 
   .prose :global(a) {
-    color: var(--accent-purple);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: all 0.2s;
+    color: var(--accent-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--accent-primary-light);
+    text-underline-offset: 3px;
+    transition: all var(--transition-fast);
   }
 
   .prose :global(a:hover) {
-    color: var(--accent-purple-hover);
-    border-bottom-color: var(--accent-purple-hover);
+    color: var(--accent-primary-hover);
+    text-decoration-color: var(--accent-primary);
   }
 
   .prose :global(ul),
   .prose :global(ol) {
-    margin-bottom: 1.25rem;
-    padding-left: 1.75rem;
+    margin-bottom: var(--space-lg);
+    padding-left: var(--space-xl);
     color: var(--text-secondary);
   }
 
   .prose :global(li) {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-sm);
+    line-height: 1.8;
+  }
+
+  .prose :global(li::marker) {
+    color: var(--accent-primary);
   }
 
   .prose :global(strong) {
@@ -505,90 +380,196 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
   }
 
   .prose :global(code) {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--accent-cyan);
+    background: var(--bg-tertiary);
+    color: var(--accent-primary);
     padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     font-size: 0.9em;
-    font-family: "Geist Mono", "Courier New", Courier, monospace;
+    font-family: var(--font-mono);
+    font-weight: 500;
   }
 
   .prose :global(pre) {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.5rem;
+    background: #1e1e1e;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
     overflow-x: auto;
-    margin: 1.5rem 0;
+    margin: var(--space-xl) 0;
     line-height: 1.6;
-    font-family: "Geist Mono", "Courier New", Courier, monospace;
+    font-family: var(--font-mono);
   }
 
   .prose :global(pre::-webkit-scrollbar) {
-    width: 12px;
-    height: 12px;
+    height: 8px;
   }
 
   .prose :global(pre::-webkit-scrollbar-track) {
-    background: #404040;
-    border-radius: 6px;
+    background: #2d2d2d;
+    border-radius: 4px;
   }
 
   .prose :global(pre::-webkit-scrollbar-thumb) {
-    background: #888;
-    border-radius: 6px;
-    border: 2px solid #404040;
-  }
-
-  .prose :global(pre::-webkit-scrollbar-thumb:hover) {
-    background: #aaa;
+    background: #555;
+    border-radius: 4px;
   }
 
   .prose :global(pre code) {
     background: none;
     padding: 0;
-    color: var(--text-primary);
+    color: #d4d4d4;
     font-size: 0.875rem;
   }
 
   .prose :global(blockquote) {
-    border-left: 3px solid var(--accent-purple);
-    padding-left: 1.5rem;
-    margin: 1.5rem 0;
+    border-left: 3px solid var(--accent-primary);
+    padding-left: var(--space-lg);
+    margin: var(--space-xl) 0;
     color: var(--text-secondary);
     font-style: italic;
+    background: var(--bg-secondary);
+    padding: var(--space-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .prose :global(blockquote p) {
+    margin-bottom: 0;
   }
 
   .prose :global(img) {
-    border-radius: 8px;
-    margin: 1.5rem 0;
+    border-radius: var(--radius-lg);
+    margin: var(--space-xl) 0;
+    box-shadow: var(--shadow-md);
   }
 
   .prose :global(hr) {
     border: none;
-    border-top: 1px solid var(--border-color);
-    margin: 2rem 0;
+    border-top: 1px solid var(--border-light);
+    margin: var(--space-2xl) 0;
   }
 
   .prose :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: 1.5rem 0;
+    margin: var(--space-xl) 0;
+    font-size: 0.9375rem;
   }
 
   .prose :global(th),
   .prose :global(td) {
-    border: 1px solid var(--border-color);
-    padding: 0.75rem;
+    border: 1px solid var(--border-light);
+    padding: var(--space-md);
     text-align: left;
   }
 
   .prose :global(th) {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-secondary);
     color: var(--text-primary);
     font-weight: 600;
   }
 
+  .prose :global(td) {
+    color: var(--text-secondary);
+  }
+
+  /* Post Navigation */
+  .post-navigation {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid var(--border-light);
+  }
+
+  .nav-heading {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .nav-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-slow);
+  }
+
+  .nav-card:hover {
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .nav-card.next {
+    text-align: right;
+    grid-column: 2;
+  }
+
+  .nav-card:only-child {
+    grid-column: span 1;
+  }
+
+  .nav-card.next:only-child {
+    grid-column: 2;
+  }
+
+  .nav-direction {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-card.next .nav-direction {
+    justify-content: flex-end;
+  }
+
+  .nav-card:hover .nav-direction {
+    color: var(--accent-primary);
+  }
+
+  .nav-title {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .nav-card svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .nav-card.prev:hover svg {
+    transform: translateX(-3px);
+  }
+
+  .nav-card.next:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Responsive */
   @media (max-width: 768px) {
     .app-container {
       flex-direction: column;
@@ -596,51 +577,45 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
 
     .main-content {
       margin-left: 0;
-      padding: 1.5rem 1rem;
-      padding-bottom: 6rem;
+      padding: var(--space-lg) var(--space-md);
+      padding-bottom: var(--space-4xl);
     }
 
     .post-article {
-      padding: 2rem 1.5rem;
-    }
-
-    .back-link {
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
+      padding: var(--space-xl);
+      border-radius: var(--radius-xl);
     }
 
     .post-title {
-      font-size: 2rem;
+      font-size: 1.625rem;
     }
 
     .post-description {
       font-size: 1rem;
     }
 
-    .post-meta-top {
-      font-size: 0.875rem;
+    .post-meta {
+      font-size: 0.8125rem;
     }
 
-    .post-navigation {
+    .post-image {
+      margin: var(--space-xl) calc(var(--space-md) * -1);
+    }
+
+    .nav-grid {
       grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-      padding-top: 1.5rem;
     }
 
-    .next-post {
+    .nav-card.next {
       grid-column: 1;
+      text-align: left;
     }
 
-    .nav-post:only-child {
-      max-width: 100%;
+    .nav-card.next .nav-direction {
+      justify-content: flex-start;
     }
 
-    .nav-post {
-      padding: 1.25rem;
-    }
-
-    .nav-title {
+    .prose :global(p) {
       font-size: 1rem;
     }
   }
