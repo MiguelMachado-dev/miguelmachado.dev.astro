@@ -3,17 +3,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
 import BottomNav from "../components/BottomNav.astro";
 import { ogImageServiceUrl } from "../config/constants";
+import { getTranslations } from "../i18n";
+
+const lang = "pt";
+const t = getTranslations(lang);
 
 const searchUrl = new URL("/search", Astro.site || "https://miguelmachado.dev")
   .href;
-const searchOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Buscar Posts - Miguel Machado")}&url=${searchUrl}`;
+const searchOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.search.title)}&url=${searchUrl}`;
 ---
 
 <BaseLayout
-  title="Buscar Posts - Miguel Machado"
-  description="Busque por artigos sobre desenvolvimento web moderno, Golang, TypeScript, React, arquitetura de software, performance e boas práticas de engenharia. Conteúdo técnico especializado para desenvolvedores."
+  title={t.search.title}
+  description={t.search.description}
   ogImage={searchOgImage}
   canonical={searchUrl}
+  lang={lang}
 >
   <div class="app-container" data-pagefind-ignore="all">
     <Sidebar />
@@ -21,7 +26,7 @@ const searchOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Buscar P
     <main class="main-content">
       <div class="content-wrapper">
         <div class="search-container">
-          <h1 class="search-title">Buscar Posts</h1>
+          <h1 class="search-title">{t.search.title}</h1>
           <div id="search"></div>
         </div>
       </div>
