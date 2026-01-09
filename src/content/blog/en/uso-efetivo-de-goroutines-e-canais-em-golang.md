@@ -12,6 +12,7 @@ mainClass: go
 color: "#007d9c"
 tags: ['golang', 'goroutine', 'channels']
 slug: "effective-use-of-goroutines-and-channels-in-golang"
+translationId: "uso-efetivo-de-goroutines-e-canais-em-golang"
 draft: false
 ---
 # Exploring Concurrency in Go: A Journey Through the World of Goroutines and Channels

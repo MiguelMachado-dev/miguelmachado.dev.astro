@@ -19,7 +19,8 @@ export function getTranslations(lang: Lang): Translations {
 
 export function getLangFromUrl(url: URL): Lang {
   const pathname = url.pathname;
-  if (pathname.startsWith("/en/") || pathname === "/en") {
+  // Handle /en, /en/, /en.html, and /en/anything paths
+  if (pathname.startsWith("/en/") || pathname === "/en" || pathname === "/en.html") {
     return "en";
   }
   return "pt";

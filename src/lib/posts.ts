@@ -9,7 +9,8 @@ export async function getPublishedPosts(lang: Lang) {
 }
 
 export function getPostSlug(post: { data: { slug?: string }; id: string }): string {
-  return post.data.slug || post.id;
+  // Return custom slug if available, otherwise use id without .md extension
+  return post.data.slug || post.id.replace(/\.md$/, "");
 }
 
 export function getPostUrl(post: { data: { slug?: string }; id: string }, lang: Lang): string {
@@ -18,17 +19,36 @@ export function getPostUrl(post: { data: { slug?: string }; id: string }, lang: 
 }
 
 export async function getTranslationSlug(
-  currentFilename: string,
-  targetLang: Lang
+  currentId: string,
+  targetLang: Lang,
+  currentTranslationId?: string
 ): Promise<string | null> {
   const collectionName = targetLang === "en" ? "blogEn" : "blogPt";
   const posts = await getCollection(collectionName);
 
-  // Find post with matching filename (id)
-  const translatedPost = posts.find((post) => post.id === currentFilename);
+  // Normalize id by removing .md extension if present
+  const normalizedId = currentId.replace(/\.md$/, "");
+  const normalizedTranslationId = currentTranslationId?.replace(/\.md$/, "");
+
+  // Find matching translation:
+  // For PT -> EN: Look for EN post where EN.translationId matches PT.id
+  // For EN -> PT: Look for PT post where PT.id matches EN.translationId
+  const translatedPost = posts.find((post) => {
+    const postId = post.id.replace(/\.md$/, "");
+    const postTranslationId = (post.data as { translationId?: string }).translationId;
+
+    // Match if:
+    // 1. Target post's translationId matches our current id (PT -> EN lookup)
+    // 2. Target post's id matches our translationId (EN -> PT lookup)
+    // 3. Target post's id matches our id (fallback for posts without translationId)
+    return postTranslationId === normalizedId ||
+           postId === normalizedTranslationId ||
+           postId === normalizedId;
+  });
 
   if (translatedPost) {
-    return translatedPost.data.slug || translatedPost.id;
+    // Return the post's id (which is the slug used in URLs)
+    return translatedPost.id.replace(/\.md$/, "");
   }
   return null;
 }

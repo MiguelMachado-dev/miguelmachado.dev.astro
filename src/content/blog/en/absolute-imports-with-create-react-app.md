@@ -9,6 +9,7 @@ color: "#a29330"
 image: ../../../assets/img/thumb-absolute-path.png
 tags: ["javascript", "eslint"]
 slug: "absolute-imports-create-react-app"
+translationId: "absolute-imports-with-create-react-app"
 draft: false
 ---
 

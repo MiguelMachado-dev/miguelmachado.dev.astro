@@ -13,6 +13,7 @@ color: "#007d9c"
 image: ../../../assets/img/0_uee8onqy7l2gdq8q.png
 tags: [ 'golang', 'go', 'json', 'api', 'extract', 'unmarshal', 'structs']
 slug: "extracting-essential-data-from-apis-with-go-structs"
+translationId: "extracting-essential-data-from-apis-with-go-structs"
 draft: false
 ---
 # Extracting Essential Data from APIs with Go Structs

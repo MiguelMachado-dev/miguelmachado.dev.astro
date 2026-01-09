@@ -8,6 +8,7 @@ mainClass: go
 color: "#e10098"
 tags: ['golang', 'go', 'graphql', 'gqlgen', 'api', 'schema-first', 'resolvers']
 slug: "graphql-in-golang-with-gqlgen"
+translationId: "graphql-em-golang-com-gqlgen"
 draft: false
 ---
 

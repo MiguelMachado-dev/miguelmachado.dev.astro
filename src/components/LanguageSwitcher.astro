@@ -27,8 +27,13 @@ if (translationSlug) {
     }
   } else {
     // Going to Portuguese - remove /en prefix
-    const ptPath = currentPath.replace(/^\/en\/?/, "/");
-    alternateUrl = ptPath || "/";
+    // Handle both /en and /en/ and /en.html for homepage
+    if (currentPath === "/en" || currentPath === "/en/" || currentPath === "/en.html") {
+      alternateUrl = "/";
+    } else {
+      const ptPath = currentPath.replace(/^\/en\//, "/");
+      alternateUrl = ptPath || "/";
+    }
   }
 }
 

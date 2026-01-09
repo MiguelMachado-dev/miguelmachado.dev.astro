@@ -9,6 +9,7 @@ color: "#009e66"
 image: ../../../assets/img/acessibilidade-parte-2.jpeg
 tags: ['accessibility', 'a11y', 'web']
 slug: "improve-website-accessibility-part-2"
+translationId: "como-melhorar-acessibilidade-parte-2"
 draft: false
 ---
 

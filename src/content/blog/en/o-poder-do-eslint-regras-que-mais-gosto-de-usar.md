@@ -9,6 +9,7 @@ color: "#a29330"
 image: ../../../assets/img/1_3adbbrn3gotbz72xqfo96g.png
 tags: ['ESLint', 'rules']
 slug: "the-power-of-eslint"
+translationId: "o-poder-do-eslint-regras-que-mais-gosto-de-usar"
 draft: false
 ---
 ## Introduction

@@ -13,6 +13,7 @@ const blogSchema = ({ image }: SchemaContext) =>
     mainClass: z.string().optional(),
     color: z.string().optional(),
     slug: z.string().optional(),
+    translationId: z.string().optional(), // Links to corresponding post in other language
     image: z
       .union([
         image(),

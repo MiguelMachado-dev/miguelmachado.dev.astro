@@ -8,6 +8,7 @@ mainClass: proto
 color: "#30638e"
 tags: ['protobuf', 'serialization', 'performance', 'api', 'microservices', 'google', 'go', 'typescript']
 slug: "protocol-buffers-protobuf-what-is-and-benefits"
+translationId: "protocol-buffers-protobuf-o-que-e-e-seus-beneficios-para-desenvolvedores"
 draft: false
 ---
 

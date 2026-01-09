@@ -9,6 +9,7 @@ color: "#637a91"
 image: ../../../assets/img/leonardo_diffusion_homelab_0.jpg
 tags: ['homelab', 'proxmox']
 slug: "how-i-set-up-my-homelab-part-1"
+translationId: "como-montei-meu-homelab-parte-1-sistema-operacional"
 draft: false
 ---
 # How to Set Up Your Own HomeLab: A Step-by-Step Guide to Installing Proxmox

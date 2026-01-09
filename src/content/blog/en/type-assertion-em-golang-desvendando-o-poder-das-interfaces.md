@@ -8,6 +8,7 @@ mainClass: go
 color: "#007d9c"
 tags: ['golang', 'go', 'type assertion', 'interfaces', 'go programming', 'go best practices']
 slug: "type-assertion-in-golang"
+translationId: "type-assertion-em-golang-desvendando-o-poder-das-interfaces"
 draft: false
 ---
 

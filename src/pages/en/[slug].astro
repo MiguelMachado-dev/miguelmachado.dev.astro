@@ -23,8 +23,8 @@ export async function getStaticPaths() {
       index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null;
     const nextPost = index > 0 ? sortedEntries[index - 1] : null;
 
-    // Use custom slug if provided, otherwise use the file name (entry.id)
-    const slug = entry.data.slug || entry.id;
+    // Use custom slug if provided, otherwise use the file name (entry.id) without .md extension
+    const slug = entry.data.slug || entry.id.replace(/\.md$/, "");
 
     return {
       params: { slug },
@@ -37,11 +37,11 @@ const { entry, prevPost, nextPost } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
 // Get translation slug for language switcher
-const translationSlug = await getTranslationSlug(entry.id, "pt");
+const translationSlug = await getTranslationSlug(entry.id, "pt", entry.data.translationId);
 
 // SEO data
-// Use custom slug if provided, otherwise use the file name (entry.id)
-const slug = entry.data.slug || entry.id;
+// Use custom slug if provided, otherwise use the file name (entry.id) without .md extension
+const slug = entry.data.slug || entry.id.replace(/\.md$/, "");
 const postUrl = new URL(`/en/${slug}`, Astro.site || "https://miguelmachado.dev")
   .href;
 const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.title)}&url=${postUrl}`;
@@ -145,7 +145,7 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
               <nav class="post-navigation" data-pagefind-ignore>
                 {prevPost && (
                   <a
-                    href={`/en/${prevPost.data.slug || prevPost.id}`}
+                    href={`/en/${prevPost.data.slug || prevPost.id.replace(/\.md$/, "")}`}
                     class="nav-post prev-post"
                   >
                     <span class="nav-label">
@@ -167,7 +167,7 @@ const ogImageUrl = `${ogImageServiceUrl}?title=${encodeURIComponent(entry.data.t
 
                 {nextPost && (
                   <a
-                    href={`/en/${nextPost.data.slug || nextPost.id}`}
+                    href={`/en/${nextPost.data.slug || nextPost.id.replace(/\.md$/, "")}`}
                     class="nav-post next-post"
                   >
                     <span class="nav-label">

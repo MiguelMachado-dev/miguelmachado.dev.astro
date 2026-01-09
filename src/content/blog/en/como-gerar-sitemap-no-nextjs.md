@@ -9,6 +9,7 @@ color: "#a29330"
 image: ../../../assets/img/sitemap.png
 tags: ['tutorial', 'nextjs', 'sitemap']
 slug: "generate-sitemap-nextjs"
+translationId: "como-gerar-sitemap-no-nextjs"
 draft: false
 ---
 

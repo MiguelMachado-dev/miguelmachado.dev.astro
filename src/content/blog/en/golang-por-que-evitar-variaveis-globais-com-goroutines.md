@@ -8,6 +8,7 @@ mainClass: go
 color: "#007d9c"
 tags: ['golang', 'goroutines', 'concurrency', 'global variables', 'race condition', 'best practices']
 slug: "golang-why-avoid-global-variables-goroutines"
+translationId: "golang-por-que-evitar-variaveis-globais-com-goroutines"
 draft: false
 ---
 

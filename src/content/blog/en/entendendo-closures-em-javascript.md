@@ -7,6 +7,7 @@ mainClass: js
 tags: ['javascript', 'concepts']
 draft: false
 slug: understanding-closures-in-javascript
+translationId: "entendendo-closures-em-javascript"
 image: ../../../assets/img/entendendo-closures-em-javascript.png
 ---
 
