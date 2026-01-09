@@ -1,5 +1,6 @@
 ---
 import faviconImg from "../assets/img/mmcoding-icon.png";
+import { getLangFromUrl, getTranslations, type Lang } from "../i18n";
 
 interface Props {
   title: string;
@@ -9,6 +10,8 @@ interface Props {
   articleDate?: Date;
   articleTags?: string[];
   canonical?: string;
+  lang?: Lang;
+  alternateSlug?: string | null;
 }
 
 const {
@@ -19,7 +22,12 @@ const {
   articleDate,
   articleTags,
   canonical,
+  lang: propLang,
+  alternateSlug,
 } = Astro.props;
+
+const lang = propLang || getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 
 const currentUrl = new URL(
   Astro.url.pathname,
@@ -32,16 +40,47 @@ if (normalizedHref.endsWith('/') && currentUrl.pathname !== '/') {
   normalizedHref = normalizedHref.slice(0, -1);
 }
 const canonicalUrl = canonical || normalizedHref;
+
+// Build alternate language URLs for hreflang
+const siteBase = Astro.site?.href || "https://miguelmachado.dev";
+const currentPath = Astro.url.pathname;
+
+let ptUrl: string;
+let enUrl: string;
+
+if (alternateSlug !== undefined) {
+  // For blog posts with specific translation slugs
+  if (lang === "pt") {
+    ptUrl = `${siteBase}${currentPath.replace(/^\//, "")}`;
+    enUrl = alternateSlug ? `${siteBase}en/${alternateSlug}` : "";
+  } else {
+    enUrl = `${siteBase}${currentPath.replace(/^\//, "")}`;
+    ptUrl = alternateSlug ? `${siteBase}${alternateSlug}` : "";
+  }
+} else {
+  // For static pages (home, search, 404)
+  if (lang === "pt") {
+    ptUrl = canonicalUrl;
+    enUrl = `${siteBase}en${currentPath === "/" ? "" : currentPath}`;
+  } else {
+    enUrl = canonicalUrl;
+    const ptPath = currentPath.replace(/^\/en\/?/, "/");
+    ptUrl = `${siteBase}${ptPath.replace(/^\//, "")}`;
+  }
+}
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang={t.meta.htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href={faviconImg.src} />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
+    {ptUrl && <link rel="alternate" hreflang="pt-BR" href={ptUrl} />}
+    {enUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
+    {ptUrl && <link rel="alternate" hreflang="x-default" href={ptUrl} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -74,7 +113,7 @@ const canonicalUrl = canonical || normalizedHref;
     {description && <meta property="og:description" content={description} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta property="og:site_name" content="Miguel Machado" />
-    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content={t.meta.locale} />
     {
       ogType === "article" && articleDate && (
         <meta property="og:updated_time" content={articleDate.toISOString()} />
@@ -126,7 +165,7 @@ const canonicalUrl = canonical || normalizedHref;
     <!-- Additional SEO -->
     <meta name="author" content="Miguel Machado" />
     <meta name="robots" content="index, follow" />
-    <meta name="language" content="Portuguese" />
+    <meta name="language" content={t.meta.language} />
     {
       ogType === "article" && articleDate && (
         <meta name="publish_date" content={articleDate.toISOString()} />
