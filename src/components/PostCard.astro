@@ -6,38 +6,81 @@ interface Props {
   tag?: string;
   tagColor?: string;
   lang?: "pt" | "en";
+  pubDate?: Date;
 }
 
-const { title, description, slug, tag, tagColor = "blue", lang = "pt" } = Astro.props;
+const { title, description, slug, tag, tagColor = "blue", lang = "pt", pubDate } = Astro.props;
 
+// Refined tag color palette
 const tagColors = {
-  go: { bg: "#00add8", text: "#121010" },
-  proto: { bg: "#a277ff", text: "#fff" },
-  dev: { bg: "#a277ff", text: "#fff" },
-  js: { bg: "#f7df1e", text: "#000" },
-  blue: { bg: "#3b82f6", text: "#fff" },
-  acessibilidade: { bg: "#10b981", text: "#fff" },
-  eslint: { bg: "#4b32c3", text: "#fff" },
-  alexa: { bg: "#7AAB13", text: "#fff" },
+  go: { bg: "#0d9488", text: "#ffffff" },
+  proto: { bg: "#7c3aed", text: "#ffffff" },
+  dev: { bg: "#c45d3a", text: "#ffffff" },
+  js: { bg: "#ca8a04", text: "#1a1a1a" },
+  blue: { bg: "#2563eb", text: "#ffffff" },
+  acessibilidade: { bg: "#059669", text: "#ffffff" },
+  eslint: { bg: "#4f46e5", text: "#ffffff" },
+  alexa: { bg: "#65a30d", text: "#ffffff" },
+  react: { bg: "#0891b2", text: "#ffffff" },
+  typescript: { bg: "#1d4ed8", text: "#ffffff" },
+  node: { bg: "#15803d", text: "#ffffff" },
 };
 
 const colors = tagColors[tagColor as keyof typeof tagColors] || tagColors.blue;
+
+// Format date if provided
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat(lang === "en" ? "en-US" : "pt-BR", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(date);
+};
 ---
 
 <a href={lang === "en" ? `/en/${slug}` : `/${slug}`} class="post-card-link">
   <article class="post-card">
-    {
-      tag && (
-        <span
-          class="tag"
-          style={`background: ${colors.bg}; color: ${colors.text};`}
-        >
-          {tag}
+    <div class="card-content">
+      <div class="card-header">
+        {tag && (
+          <span
+            class="tag"
+            style={`--tag-bg: ${colors.bg}; --tag-text: ${colors.text};`}
+          >
+            {tag}
+          </span>
+        )}
+        {pubDate && (
+          <time class="date" datetime={pubDate.toISOString()}>
+            {formatDate(pubDate)}
+          </time>
+        )}
+      </div>
+
+      <h2 class="post-title">{title}</h2>
+      <p class="post-description">{description}</p>
+
+      <div class="card-footer">
+        <span class="read-more">
+          <span class="read-more-text">{lang === "en" ? "Read article" : "Ler artigo"}</span>
+          <svg
+            class="read-more-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         </span>
-      )
-    }
-    <h2 class="post-title">{title}</h2>
-    <p class="post-description">{description}</p>
+      </div>
+    </div>
+
+    <div class="card-accent"></div>
   </article>
 </a>
 
@@ -49,60 +92,169 @@ const colors = tagColors[tagColor as keyof typeof tagColors] || tagColors.blue;
   }
 
   .post-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
-    box-shadow: var(--card-shadow);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 0;
     overflow: hidden;
+    transition: all var(--transition-slow);
+    box-shadow: var(--shadow-card);
   }
 
-  .post-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--accent-purple);
-    opacity: 0.9;
-    transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  .post-card:hover {
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
   }
 
-  .post-card-link:hover .post-card {
-    border-color: var(--accent-purple);
-    box-shadow: var(--card-shadow-hover-strong), var(--card-shadow-hover-light);
-    transform: translateY(-5px);
+  .card-content {
+    padding: var(--space-xl);
+    position: relative;
+    z-index: 1;
   }
 
-  .post-card-link:hover .post-card::before {
-    opacity: 1;
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
   }
 
   .tag {
-    display: inline-block;
-    padding: 0.3rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-sm);
+    font-size: 0.6875rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.08em;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    transition: transform var(--transition-fast);
+  }
+
+  .post-card:hover .tag {
+    transform: scale(1.02);
+  }
+
+  .date {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-weight: 400;
   }
 
   .post-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.35;
     color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+    transition: color var(--transition-fast);
+  }
+
+  .post-card:hover .post-title {
+    color: var(--accent-primary);
   }
 
   .post-description {
-    font-size: 0.938rem;
+    font-size: 0.9375rem;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent-primary);
+    transition: all var(--transition-fast);
+  }
+
+  .read-more-text {
+    position: relative;
+  }
+
+  .read-more-text::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width var(--transition-base);
+  }
+
+  .post-card:hover .read-more-text::after {
+    width: 100%;
+  }
+
+  .read-more-icon {
+    transition: transform var(--transition-fast);
+  }
+
+  .post-card:hover .read-more-icon {
+    transform: translateX(4px);
+  }
+
+  /* Accent line on hover */
+  .card-accent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--accent-primary),
+      transparent
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-slow);
+  }
+
+  .post-card:hover .card-accent {
+    transform: scaleX(1);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card-content {
+      padding: var(--space-lg);
+    }
+
+    .post-title {
+      font-size: 1.25rem;
+    }
+
+    .post-description {
+      font-size: 0.875rem;
+      -webkit-line-clamp: 2;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
   }
 </style>

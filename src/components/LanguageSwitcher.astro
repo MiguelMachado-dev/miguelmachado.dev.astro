@@ -1,5 +1,4 @@
 ---
-// src/components/LanguageSwitcher.astro
 import { getLangFromUrl, languages, type Lang } from "../i18n";
 
 interface Props {
@@ -11,27 +10,20 @@ const { translationSlug, compact = false } = Astro.props;
 const currentLang = getLangFromUrl(Astro.url);
 const targetLang: Lang = currentLang === "pt" ? "en" : "pt";
 
-// Build alternate URL
 let alternateUrl: string;
 if (translationSlug) {
-  // Translation exists - redirect to translated post
   alternateUrl = targetLang === "en" ? `/en/${translationSlug}` : `/${translationSlug}`;
 } else if (translationSlug === null) {
-  // Blog post but no translation exists - redirect to target language home
   alternateUrl = targetLang === "en" ? "/en" : "/";
 } else {
-  // For static pages (home, search, undefined), derive from current path
   const currentPath = Astro.url.pathname;
   if (currentLang === "pt") {
-    // Going to English
     if (currentPath === "/" || currentPath === "") {
       alternateUrl = "/en";
     } else {
       alternateUrl = `/en${currentPath}`;
     }
   } else {
-    // Going to Portuguese - remove /en prefix
-    // Handle both /en and /en/ and /en.html for homepage
     if (currentPath === "/en" || currentPath === "/en/" || currentPath === "/en.html") {
       alternateUrl = "/";
     } else {
@@ -51,58 +43,117 @@ const targetLabel = languages[targetLang];
     aria-label={`Switch to ${targetLabel}`}
     title={`Switch to ${targetLabel}`}
   >
-    {targetLang === "en" ? "EN" : "BR"}
+    <span class="lang-flag">{targetLang === "en" ? "EN" : "PT"}</span>
   </a>
 ) : (
-  <a href={alternateUrl} class="lang-switch" aria-label={`Switch to ${targetLabel}`}>
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-    >
-      <circle cx="12" cy="12" r="10"></circle>
-      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-    </svg>
-    <span>{targetLabel}</span>
-  </a>
+  <div class="lang-switcher-container">
+    <div class="lang-toggle">
+      <span class={`lang-option ${currentLang === "pt" ? "active" : ""}`}>PT</span>
+      <a href={alternateUrl} class="toggle-track" aria-label={`Switch to ${targetLabel}`}>
+        <span class={`toggle-thumb ${currentLang === "en" ? "right" : ""}`}></span>
+      </a>
+      <span class={`lang-option ${currentLang === "en" ? "active" : ""}`}>EN</span>
+    </div>
+  </div>
 )}
 
 <style>
-  .lang-switch {
+  .lang-switcher-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .lang-toggle {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.625rem 1rem;
-    border-radius: 8px;
-    color: var(--text-secondary);
-    transition: all 0.2s;
-    font-size: 0.875rem;
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--border-light);
   }
 
-  .lang-switch:hover {
-    background-color: var(--bg-card);
-    color: var(--text-primary);
+  .lang-option {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+    text-transform: uppercase;
   }
 
+  .lang-option.active {
+    color: var(--accent-primary);
+  }
+
+  .toggle-track {
+    display: inline-block;
+    position: relative;
+    width: 36px;
+    height: 18px;
+    background: var(--bg-tertiary);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    border: 1px solid var(--border-medium);
+    flex-shrink: 0;
+  }
+
+  .toggle-track:hover {
+    background: var(--border-light);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    transition: transform var(--transition-base);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  .toggle-thumb.right {
+    transform: translateX(18px);
+  }
+
+  /* Compact version for BottomNav */
   .lang-switch-compact {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    color: var(--text-secondary);
-    transition: all 0.2s;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    color: var(--text-tertiary);
+    transition: all var(--transition-fast);
+    background: transparent;
   }
 
   .lang-switch-compact:hover {
-    background-color: var(--bg-card);
-    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    color: var(--accent-primary);
+  }
+
+  .lang-flag {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-fast);
+  }
+
+  .lang-switch-compact:hover .lang-flag {
+    background: var(--accent-primary-light);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
   }
 </style>

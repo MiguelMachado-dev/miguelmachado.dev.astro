@@ -17,16 +17,17 @@ const searchPath = getSearchPath(lang);
   <a
     href={homePath}
     class={`nav-item ${activePage === "home" ? "active" : ""}`}
-    title="Go to home"
+    title="Home"
   >
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
     </svg>
   </a>
   <a
     href={searchPath}
     class={`nav-item ${activePage === "search" ? "active" : ""}`}
-    title="Search for a post"
+    title="Search"
   >
     <svg
       width="20"
@@ -34,7 +35,7 @@ const searchPath = getSearchPath(lang);
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
+      stroke-width="1.5"
     >
       <circle cx="11" cy="11" r="8"></circle>
       <path d="m21 21-4.35-4.35"></path>
@@ -42,7 +43,7 @@ const searchPath = getSearchPath(lang);
   </a>
   <LanguageSwitcher translationSlug={translationSlug} compact={true} />
   <button
-    class={`nav-item scroll-to-top ${activePage === "post" ? "active" : ""}`}
+    class="nav-item scroll-to-top"
     title="Scroll to top"
     type="button"
   >
@@ -52,7 +53,7 @@ const searchPath = getSearchPath(lang);
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
+      stroke-width="1.5"
     >
       <line x1="12" y1="19" x2="12" y2="5"></line>
       <polyline points="5 12 12 5 19 12"></polyline>
@@ -75,68 +76,59 @@ const searchPath = getSearchPath(lang);
     }
   }
 
-  // Run immediately
   setupScrollToTop();
-
-  // Also run on page load for safety
   document.addEventListener("DOMContentLoaded", setupScrollToTop);
 </script>
 
 <style>
   .bottom-nav {
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
     display: flex;
-    gap: 0.5rem;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 0.75rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    gap: var(--space-xs);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
   }
 
   .nav-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    color: var(--text-secondary);
-    transition: all 0.2s;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    color: var(--text-tertiary);
+    transition: all var(--transition-fast);
     background: none;
     border: none;
     cursor: pointer;
   }
 
   .nav-item:hover {
-    background-color: var(--bg-card);
+    background-color: var(--bg-secondary);
     color: var(--text-primary);
   }
 
   .nav-item.active {
-    background-color: var(--bg-card);
-    color: var(--accent-purple);
+    background-color: var(--accent-primary-light);
+    color: var(--accent-primary);
   }
 
   .scroll-to-top:hover svg {
-    animation: bounce-up 0.6s ease-in-out;
+    animation: bounce-up 0.5s ease-in-out;
   }
 
   @keyframes bounce-up {
-    0%,
-    100% {
+    0%, 100% {
       transform: translateY(0);
-    }
-    25% {
-      transform: translateY(-8px);
     }
     50% {
       transform: translateY(-4px);
-    }
-    75% {
-      transform: translateY(-6px);
     }
   }
 
@@ -144,7 +136,7 @@ const searchPath = getSearchPath(lang);
     .bottom-nav {
       right: 50%;
       transform: translateX(50%);
-      bottom: 1rem;
+      bottom: var(--space-lg);
     }
   }
 </style>
