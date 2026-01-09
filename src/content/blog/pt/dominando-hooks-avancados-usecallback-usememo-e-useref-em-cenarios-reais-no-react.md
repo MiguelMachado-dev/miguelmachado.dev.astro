@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image: ../../assets/img/dominando-hooks-avan-ados-usecallback-usememo-e-useref-em-cen-rios-reais-no-react.png
+image: ../../../assets/img/dominando-hooks-avan-ados-usecallback-usememo-e-useref-em-cen-rios-reais-no-react.png
 tags: ['react', 'hooks', 'usecallback', 'usememo', 'useref', 'otimização de performance']
 slug: "dominando-hooks-avancados-react"
 draft: false

@@ -10,7 +10,7 @@ author: Miguel Machado
 layout: post
 mainClass: go
 color: "#007d9c"
-image: ../../assets/img/0_uee8onqy7l2gdq8q.png
+image: ../../../assets/img/0_uee8onqy7l2gdq8q.png
 tags: [ 'golang', 'go', 'json', 'api', 'extract', 'unmarshal', 'structs']
 draft: false
 ---

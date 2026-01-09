@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: misc
 color: "#7AAB13"
-image: ../../assets/img/alexa-echo-dot.jpg
+image: ../../../assets/img/alexa-echo-dot.jpg
 tags: ["alexa"]
 draft: false
 ---

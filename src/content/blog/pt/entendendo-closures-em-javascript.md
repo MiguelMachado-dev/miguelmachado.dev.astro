@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image: ../../assets/img/entendendo-closures-em-javascript.png
+image: ../../../assets/img/entendendo-closures-em-javascript.png
 tags: ['javascript', 'conceitos']
 draft: false
 ---

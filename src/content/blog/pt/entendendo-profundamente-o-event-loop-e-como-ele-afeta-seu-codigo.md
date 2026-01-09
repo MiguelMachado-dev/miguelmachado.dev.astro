@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image: ../../assets/img/entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo.png
+image: ../../../assets/img/entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo.png
 tags: ['javascript', 'conceitos', 'Event Loop', 'node.js', 'programação assíncrona', 'js runtime', 'call stack']
 slug: "entendendo-o-event-loop"
 draft: false

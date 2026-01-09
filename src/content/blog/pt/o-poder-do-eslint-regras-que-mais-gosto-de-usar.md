@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image: ../../assets/img/1_3adbbrn3gotbz72xqfo96g.png
+image: ../../../assets/img/1_3adbbrn3gotbz72xqfo96g.png
 tags: ['ESLint', 'regras']
 draft: false
 ---

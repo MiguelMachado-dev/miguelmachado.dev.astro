@@ -6,7 +6,7 @@ author: Miguel Machado
 layout: post
 mainClass: js
 color: "#a29330"
-image: ../../assets/img/thumb-absolute-path.png
+image: ../../../assets/img/thumb-absolute-path.png
 tags: ["javascript", "eslint"]
 draft: false
 ---
