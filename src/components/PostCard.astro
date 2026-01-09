@@ -5,9 +5,10 @@ interface Props {
   slug: string;
   tag?: string;
   tagColor?: string;
+  lang?: "pt" | "en";
 }
 
-const { title, description, slug, tag, tagColor = "blue" } = Astro.props;
+const { title, description, slug, tag, tagColor = "blue", lang = "pt" } = Astro.props;
 
 const tagColors = {
   go: { bg: "#00add8", text: "#121010" },
@@ -23,7 +24,7 @@ const tagColors = {
 const colors = tagColors[tagColor as keyof typeof tagColors] || tagColors.blue;
 ---
 
-<a href={`/${slug}`} class="post-card-link">
+<a href={lang === "en" ? `/en/${slug}` : `/${slug}`} class="post-card-link">
   <article class="post-card">
     {
       tag && (
