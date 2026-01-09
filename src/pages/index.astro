@@ -3,40 +3,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
 import PostCard from "../components/PostCard.astro";
 import BottomNav from "../components/BottomNav.astro";
-import { getCollection } from "astro:content";
 import { ogImageServiceUrl } from "../config/constants";
+import { getPublishedPosts, getPostSlug, tagColorMap } from "../lib/posts";
+import { getTranslations } from "../i18n";
 
-// Get all blog posts sorted by date
-const allPosts = (
-  await getCollection("blog", ({ data }) => {
-    return data.draft !== true;
-  })
-).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const lang = "pt";
+const t = getTranslations(lang);
 
-// Map tags to colors
-const tagColorMap: Record<string, string> = {
-  astro: "blue",
-  golang: "go",
-  go: "go",
-  typescript: "js",
-  javascript: "js",
-  protobuf: "proto",
-  "protocol buffers": "proto",
-  acessibilidade: "acessibilidade",
-  eslint: "eslint",
-  alexa: "alexa",
-};
+const allPosts = await getPublishedPosts(lang);
 
-// SEO data for home page
 const homeUrl = new URL("/", Astro.site || "https://miguelmachado.dev").href;
-const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Miguel Machado - Senior Software Engineer")}`;
+const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.title)}`;
 ---
 
 <BaseLayout
-  title="Miguel Machado - Senior Software Engineer"
-  description="Engenheiro de Software Sênior com 7+ anos de experiência em Golang, Node.js, React e TypeScript. Blog sobre desenvolvimento web moderno, arquitetura de software, performance e boas práticas. Conteúdo especializado em backend, frontend e tecnologias escaláveis."
+  title={t.home.title}
+  description={t.home.description}
   ogImage={homeOgImage}
   canonical={homeUrl}
+  lang={lang}
 >
   <div class="app-container" data-pagefind-ignore="all">
     <Sidebar />
@@ -53,9 +38,10 @@ const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent("Miguel Mac
                 <PostCard
                   title={post.data.title}
                   description={post.data.description}
-                  slug={post.data.slug || post.id}
+                  slug={getPostSlug(post)}
                   tag={post.data.tags?.[0]?.toUpperCase()}
                   tagColor={tagColor}
+                  lang={lang}
                 />
               );
             })
