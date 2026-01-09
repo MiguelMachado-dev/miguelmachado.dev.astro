@@ -8,7 +8,7 @@ mainClass: architecture
 color: "#0ea5e9"
 tags: ['microfrontends', 'architecture', 'react', 'webpack', 'module-federation', 'frontend', 'scalability', 'web-components']
 slug: "microfrontends-architecture-scaling-teams-applications"
-translationId: "microfrontends-arquitetura-para-escalar-times-e-aplicacoes"
+translationId: "microfrontends-arquitetura-escalar-times-aplicacoes"
 draft: false
 ---
 

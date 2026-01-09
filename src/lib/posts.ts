@@ -47,8 +47,8 @@ export async function getTranslationSlug(
   });
 
   if (translatedPost) {
-    // Return the post's id (which is the slug used in URLs)
-    return translatedPost.id.replace(/\.md$/, "");
+    // Return the post's slug (custom slug if available, otherwise file id)
+    return getPostSlug(translatedPost);
   }
   return null;
 }

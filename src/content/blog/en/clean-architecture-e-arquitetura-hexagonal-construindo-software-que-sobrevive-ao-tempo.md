@@ -8,7 +8,7 @@ mainClass: architecture
 color: "#6366f1"
 tags: ['architecture', 'clean-architecture', 'hexagonal', 'ports-and-adapters', 'ddd', 'golang', 'software-design', 'solid']
 slug: "clean-architecture-hexagonal-architecture"
-translationId: "clean-architecture-e-arquitetura-hexagonal-construindo-software-que-sobrevive-ao-tempo"
+translationId: "clean-architecture-e-arquitetura-hexagonal"
 draft: false
 ---
 

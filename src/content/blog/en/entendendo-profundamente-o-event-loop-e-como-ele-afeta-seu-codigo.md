@@ -9,7 +9,7 @@ color: "#a29330"
 image: ../../../assets/img/entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo.png
 tags: ['javascript', 'concepts', 'Event Loop', 'node.js', 'asynchronous programming', 'js runtime', 'call stack']
 slug: "understanding-the-event-loop"
-translationId: "entendendo-profundamente-o-event-loop-e-como-ele-afeta-seu-codigo"
+translationId: "entendendo-o-event-loop"
 draft: false
 ---
 

@@ -8,6 +8,7 @@ mainClass: go
 color: "#007d9c"
 tags: ['golang', 'go', 'garbage-collector', 'gc', 'memoria', 'performance', 'otimizacao', 'gogc', 'gomemlimit']
 slug: "garbage-collector-em-go-e-performance"
+translationId: "garbage-collector-in-go-and-performance"
 draft: false
 ---
 

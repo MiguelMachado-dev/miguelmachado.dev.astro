@@ -8,6 +8,7 @@ mainClass: go
 color: "#007d9c"
 tags: ['golang', 'api', 'escalabilidade', 'microserviços', 'desenvolvimento backend', 'robustez']
 slug: "apis-escalaveis-golang"
+translationId: "building-scalable-apis-golang"
 draft: false
 ---
 

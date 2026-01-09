@@ -9,7 +9,7 @@ color: "#a29330"
 image: ../../../assets/img/dominando-hooks-avan-ados-usecallback-usememo-e-useref-em-cen-rios-reais-no-react.png
 tags: ['react', 'hooks', 'usecallback', 'usememo', 'useref', 'performance optimization']
 slug: "mastering-advanced-hooks-react"
-translationId: "dominando-hooks-avancados-usecallback-usememo-e-useref-em-cenarios-reais-no-react"
+translationId: "dominando-hooks-avancados-react"
 draft: false
 ---
 

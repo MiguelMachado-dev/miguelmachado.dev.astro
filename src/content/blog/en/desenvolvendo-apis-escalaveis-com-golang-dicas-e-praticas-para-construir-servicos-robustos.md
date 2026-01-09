@@ -8,7 +8,7 @@ mainClass: go
 color: "#007d9c"
 tags: ['golang', 'api', 'scalability', 'performance', 'backend', 'architecture', 'best practices']
 slug: "building-scalable-apis-golang"
-translationId: "desenvolvendo-apis-escalaveis-com-golang-dicas-e-praticas-para-construir-servicos-robustos"
+translationId: "apis-escalaveis-golang"
 draft: false
 ---
 
