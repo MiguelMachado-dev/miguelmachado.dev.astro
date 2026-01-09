@@ -25,5 +25,24 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkReadingTime],
   },
-  integrations: [pagefind(), sitemap()],
+  i18n: {
+    locales: ["pt", "en"],
+    defaultLocale: "pt",
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+  integrations: [
+    pagefind(),
+    sitemap({
+      filter: (page) => !page.includes("/404"),
+      i18n: {
+        defaultLocale: "pt",
+        locales: {
+          pt: "pt-BR",
+          en: "en-US",
+        },
+      },
+    }),
+  ],
 });
