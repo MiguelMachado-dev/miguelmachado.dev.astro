@@ -28,25 +28,50 @@ const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.titl
 
     <main class="main-content">
       <div class="content-wrapper">
-        <div class="posts-grid">
-          {
-            allPosts.map((post) => {
-              const firstTag = post.data.tags?.[0]?.toLowerCase() || "";
-              const tagColor = tagColorMap[firstTag] || "blue";
+        <!-- Hero Section -->
+        <header class="page-header">
+          <div class="header-content">
+            <span class="header-eyebrow">Blog</span>
+            <h1 class="header-title"><span class="highlight-word">Pensamentos</span> sobre código, arquitetura e desenvolvimento</h1>
+            <p class="header-description">
+              Artigos sobre desenvolvimento web, boas práticas, arquitetura de software e as tecnologias que uso no dia a dia.
+            </p>
+          </div>
+          <div class="header-decoration">
+            <div class="decoration-line"></div>
+          </div>
+        </header>
 
-              return (
-                <PostCard
-                  title={post.data.title}
-                  description={post.data.description}
-                  slug={getPostSlug(post)}
-                  tag={post.data.tags?.[0]?.toUpperCase()}
-                  tagColor={tagColor}
-                  lang={lang}
-                />
-              );
-            })
-          }
-        </div>
+        <!-- Posts Grid -->
+        <section class="posts-section">
+          <div class="section-header">
+            <h2 class="section-title">Artigos recentes</h2>
+            <span class="post-count">{allPosts.length} artigos</span>
+          </div>
+
+          <div class="posts-grid">
+            {
+              allPosts.map((post, index) => {
+                const firstTag = post.data.tags?.[0]?.toLowerCase() || "";
+                const tagColor = tagColorMap[firstTag] || "blue";
+
+                return (
+                  <div class="post-item" style={`--animation-order: ${index}`}>
+                    <PostCard
+                      title={post.data.title}
+                      description={post.data.description}
+                      slug={getPostSlug(post)}
+                      tag={post.data.tags?.[0]?.toUpperCase()}
+                      tagColor={tagColor}
+                      lang={lang}
+                      pubDate={post.data.pubDate}
+                    />
+                  </div>
+                );
+              })
+            }
+          </div>
+        </section>
       </div>
 
       <BottomNav activePage="home" />
@@ -62,21 +87,142 @@ const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.titl
 
   .main-content {
     flex: 1;
-    margin-left: 280px;
-    padding: 2rem;
-    padding-bottom: 5rem;
+    margin-left: var(--sidebar-width);
+    padding: var(--space-3xl) var(--space-2xl);
+    padding-bottom: var(--space-4xl);
+    background: var(--bg-primary);
   }
 
   .content-wrapper {
-    max-width: 900px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
+  }
+
+  /* Page Header - Editorial Style */
+  .page-header {
+    margin-bottom: var(--space-3xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .header-content {
+    max-width: 600px;
+  }
+
+  .header-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-md);
+    position: relative;
+    padding-left: var(--space-lg);
+  }
+
+  .header-eyebrow::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 2px;
+    background: var(--accent-primary);
+  }
+
+  .header-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-lg);
+    letter-spacing: -0.02em;
+    text-shadow: 3px 3px 0 var(--accent-primary-light);
+  }
+
+  .highlight-word {
+    color: transparent;
+    font-weight: 300;
+    text-shadow: none;
+    -webkit-text-stroke: 1.5px var(--border-dark);
+  }
+
+  .header-description {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  .header-decoration {
+    margin-top: var(--space-2xl);
+  }
+
+  .decoration-line {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--accent-primary) 0%,
+      var(--border-light) 30%,
+      transparent 100%
+    );
+    max-width: 300px;
+  }
+
+  /* Posts Section */
+  .posts-section {
+    /* Animation */
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .post-count {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-weight: 400;
   }
 
   .posts-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: var(--space-lg);
   }
 
+  /* Staggered animation */
+  .post-item {
+    animation: slideUp 0.5s ease forwards;
+    animation-delay: calc(var(--animation-order) * 0.05s);
+    opacity: 0;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
   @media (max-width: 768px) {
     .app-container {
       flex-direction: column;
@@ -84,8 +230,27 @@ const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.titl
 
     .main-content {
       margin-left: 0;
-      padding: 1.5rem 1rem;
-      padding-bottom: 6rem;
+      padding: var(--space-xl) var(--space-md);
+      padding-bottom: var(--space-4xl);
+    }
+
+    .page-header {
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-xl);
+    }
+
+    .header-title {
+      font-size: 1.625rem;
+    }
+
+    .header-description {
+      font-size: 0.9375rem;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-xs);
     }
   }
 </style>
