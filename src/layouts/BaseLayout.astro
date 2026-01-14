@@ -2,6 +2,13 @@
 import faviconImg from "../assets/img/mmcoding-icon.png";
 import { getLangFromUrl, getTranslations, type Lang } from "../i18n";
 
+// Self-hosted fonts via fontsource - eliminates FOUT/layout shift
+import "@fontsource-variable/fraunces";
+import "@fontsource-variable/fraunces/wght-italic.css";
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/dm-sans/wght-italic.css";
+import "@fontsource-variable/jetbrains-mono";
+
 interface Props {
   title: string;
   description?: string;
@@ -82,27 +89,6 @@ if (alternateSlug !== undefined) {
     {enUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
     {ptUrl && <link rel="alternate" hreflang="x-default" href={ptUrl} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
-
-    <!-- Google Fonts - Editorial Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
@@ -271,10 +257,10 @@ if (alternateSlug !== undefined) {
     --shadow-card: 0 2px 8px rgba(26, 26, 26, 0.04), 0 1px 2px rgba(26, 26, 26, 0.06);
     --shadow-card-hover: 0 8px 24px rgba(26, 26, 26, 0.08), 0 2px 6px rgba(26, 26, 26, 0.04);
 
-    /* Typography */
-    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    /* Typography - Self-hosted variable fonts */
+    --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+    --font-body: 'DM Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono Variable', 'Fira Code', 'Consolas', monospace;
 
     /* Spacing scale */
     --space-xs: 0.25rem;

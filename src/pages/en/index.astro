@@ -56,7 +56,7 @@ const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.titl
                 const tagColor = tagColorMap[firstTag] || "blue";
 
                 return (
-                  <div class="post-item" style={`--animation-order: ${index}`}>
+                  <div class="post-item">
                     <PostCard
                       title={post.data.title}
                       description={post.data.description}
@@ -198,24 +198,6 @@ const homeOgImage = `${ogImageServiceUrl}?title=${encodeURIComponent(t.home.titl
   .posts-grid {
     display: grid;
     gap: var(--space-lg);
-  }
-
-  /* Staggered animation */
-  .post-item {
-    animation: slideUp 0.5s ease forwards;
-    animation-delay: calc(var(--animation-order) * 0.05s);
-    opacity: 0;
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   /* Responsive */
