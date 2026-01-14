@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import faviconImg from "../assets/img/mmcoding-icon.png";
 import { getLangFromUrl, getTranslations, type Lang } from "../i18n";
 
@@ -164,6 +165,9 @@ if (alternateSlug !== undefined) {
         <meta name="date" content={articleDate.toDateString()} />
       )
     }
+
+    <!-- View Transitions - prevents layout shift and element blinking during navigation -->
+    <ViewTransitions />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
